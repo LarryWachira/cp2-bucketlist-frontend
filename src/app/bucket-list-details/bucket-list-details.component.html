@@ -1,0 +1,23 @@
+<p>
+  {{ bucketlist }}
+</p>
+
+<div *ngIf="isLoading && ! errorMessage">Loading...</div>
+
+<div *ngIf="items">
+
+  <div *ngFor="let item of items">
+    <table>
+      <tr>   <td> {{item.name}} </td>
+        <td> |>> {{item.description}} </td>
+        <td *ngIf="item.done"> |>> You've done this! </td>
+        <td *ngIf="!item.done"> |>> Not done yet! </td>
+      </tr>
+    </table>
+  </div>
+
+</div>
+
+<div *ngIf="errorMessage.status == 404">404<br>The bucketlist does not exist</div>
+
+<p *ngIf="!items.length && !errorMessage">Empty</p>
