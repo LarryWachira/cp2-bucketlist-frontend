@@ -1,0 +1,29 @@
+<p>
+  bucket-lists works!
+</p>
+
+<div *ngIf="isLoading && ! errorMessage">Loading...</div>
+
+<table>
+  <tr *ngFor="let bucketlist of bucketLists" (click)="selectBucketList(bucketlist)">
+    <td> {{bucketlist.name}} ||| {{bucketlist.items.length}} items </td>
+    <td> </td>
+    <td>
+      <button routerLink="/bucketlists/{{bucketlist.id}}">
+      open
+      </button>
+    </td>
+  </tr>
+</table>
+
+<div *ngIf="selectedBucketList">
+  <h2>You selected:  {{ selectedBucketList.name }}</h2>
+  <h3>Details</h3>
+  <p>
+    {{selectedBucketList.name}} was created on {{selectedBucketList.date_created | date:'fullDate' }}
+    <br>and was modified on {{selectedBucketList.date_modified | date:'fullDate' }}
+    <br>and has {{itemsNumber}} items
+  </p>
+</div>
+
+<div *ngIf="errorMessage">{{errorMessage.status}} {{errorMessage.error}}</div>
