@@ -1,7 +1,56 @@
-<h1>
-  {{title}}
-  {{apiUrl}}
-</h1>
 
-<button routerLink="/bucketlists"> Bucketlists </button>
-<router-outlet></router-outlet>
+<div class="main-container">
+  <header class="header header-3 shadow">
+    <div class="branding">
+      <a routerLink="/welcome">
+        <clr-icon shape="home" class="is-inverse is-solid"></clr-icon>
+        <span class="title">Chum</span>
+      </a>
+    </div>
+    <div class="header-nav">
+      <a routerLink="/welcome" routerLinkActive="active" class="nav-link nav-text">Dashboard</a>
+      <a routerLink="/bucketlists" routerLinkActive="active" class="nav-link nav-text">Bucket Lists</a>
+    </div>
+    <form class="search">
+      <label for="search_bucketlists">
+        <input id="search_bucketlists" type="text" placeholder="Search for bucket list...">
+      </label>
+    </form>
+    <div class="header-actions">
+      <a href="#" routerLinkActive="active" class="nav-link nav-text">
+        Log In
+      </a>
+      <a href="#" routerLinkActive="active" class="nav-link nav-text">
+        Register
+      </a>
+      <span class="nav-link nav-text">
+        Hi!
+      </span>
+      <clr-dropdown clrMenuPosition="bottom-right">
+        <button class="nav-icon" clrDropdownToggle>
+          <clr-icon shape="user"></clr-icon>
+          <clr-icon shape="caret down"></clr-icon>
+        </button>
+        <clr-dropdown-menu>
+          <a href="#" clrDropdownItem>About</a>
+          <a href="#" clrDropdownItem>Log out</a>
+        </clr-dropdown-menu>
+      </clr-dropdown>
+    </div>
+  </header>
+  <!--<nav class="subnav">-->
+    <!--<ul class="nav">-->
+      <!--<li class="nav-item">-->
+        <!--<a class="nav-link active" routerLink="/bucketlists"> Bucketlists </a>-->
+      <!--</li>-->
+      <!--<li *ngIf="selectedBucketList" class="nav-item">-->
+        <!--<a class="nav-link active" routerLink="/bucketlists/{{selectedBucketList.id}}"> Bucketlists </a>-->
+      <!--</li>-->
+    <!--</ul>-->
+  <!--</nav>-->
+  <div class="content-container">
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

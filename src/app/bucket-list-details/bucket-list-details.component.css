@@ -1,0 +1,25 @@
+.label {
+  color:            white;
+  border-color:     #747474;
+  background-color: #747474;
+}
+
+.label.label-purple {
+  color:            white;
+  border-color:     #9460b8;
+  background-color: #9460b8;
+}
+
+a.label:visited {
+  color: white;
+}
+
+h2 {
+  color:          #000;
+  font-weight:    200;
+  font-size:      28px;
+  letter-spacing: normal;
+  line-height:    48px;
+  margin-top:     0px;
+  margin-bottom:  0;
+}

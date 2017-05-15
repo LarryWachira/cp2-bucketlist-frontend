@@ -1,0 +1,16 @@
+h1 {
+  color:          white;
+  font-weight:    200;
+  font-size:      56px;
+  letter-spacing: normal;
+  line-height:    48px;
+  margin-top:     0px;
+  margin-bottom:  0;
+}
+
+span {
+  color:          white;
+  font-weight:    200;
+  font-size:      28px;
+  letter-spacing: normal;
+}
