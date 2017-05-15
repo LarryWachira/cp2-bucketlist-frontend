@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+
 import { BucketListsService } from "./bucket-lists.service";
-import {BucketList} from "../bucket-list-details/bucket-list-details";
-// import { BucketLists } from "./bucket-lists";
-// import {BucketListItem} from "../bucket-list-details/bucket-list-item";
-// import {BucketListDetailsService} from "../bucket-list-details/bucket-list-details.service";
+import { BucketList } from "../bucket-list-details/bucket-list-details";
 
 
 @Component({
@@ -15,28 +13,78 @@ import {BucketList} from "../bucket-list-details/bucket-list-details";
 export class BucketListsComponent implements OnInit {
   bucketLists : BucketList[];
   selectedBucketList: BucketList;
-  itemsNumber: number;
-  pages: number;
-  errorMessage: string;
+  message: string;
+  // itemsNumber: number;
+  responseStatus: number;
+  // pages: number;
+  submitLoading: boolean;
+  errorMessage: any;
   isLoading: boolean = true;
 
   constructor(private _bucketListService: BucketListsService) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.getBucketLists()
+  }
+
+  getBucketLists(): void {
     this._bucketListService
-      .getAllBucketLists()
+      .getAllBucketListsService()
       .subscribe(
         data => {
           this.bucketLists = data.bucketlists;
-          this.pages = data.pages;
-          },
-        error => this.errorMessage = error,
-        () => this.isLoading = false );
+        },
+        error => this.errorMessage = error.json(),
+        () => this.isLoading = false);
   }
 
-  selectBucketList(bucketlist) {
-    this.selectedBucketList = bucketlist;
+  addBucketList(name: string): void {
+    this.submitLoading = true;
+    console.log(name);
+    this._bucketListService
+      .addBucketListService(name)
+      .subscribe(
+        data => {
+          this.message = data.message;
+          this.submitLoading = false;
+          this.getBucketLists();
+        },
+        error => this.errorMessage = error.json());
+    this.submitLoading = false;
+  }
+
+  updateBucketList(bucketlist: BucketList, name: string): void {
+    this.submitLoading = true;
+    console.log(name);
+    this._bucketListService
+      .updateBucketListService(bucketlist, name)
+      .subscribe(
+        data => {
+          this.message = data.message;
+          this.submitLoading = false;
+          this.getBucketLists();
+        },
+        error => this.errorMessage = error.json());
+    this.submitLoading = false;
+  }
+
+  deleteBucketList(bucketlist: BucketList): void {
+    this.submitLoading = true;
+    console.log(bucketlist);
+    this._bucketListService
+      .deleteBucketListService(bucketlist)
+      .subscribe(
+        data => {
+          this.responseStatus = data;
+          this.submitLoading = false;
+          this.getBucketLists();
+        },
+        error => this.errorMessage = error.json());
+  }
+
+  selectBucketList(bucketList) {
+    this.selectedBucketList = bucketList;
   }
 
 }
