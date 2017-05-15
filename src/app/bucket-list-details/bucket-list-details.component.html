@@ -1,23 +1,154 @@
-<p>
-  {{ bucketlist }}
-</p>
+<span *ngIf="isLoading && ! errorMessage" class="spinner spinner-lg center-h1"></span>
 
-<div *ngIf="isLoading && ! errorMessage">Loading...</div>
-
-<div *ngIf="items">
-
-  <div *ngFor="let item of items">
-    <table>
-      <tr>   <td> {{item.name}} </td>
-        <td> |>> {{item.description}} </td>
-        <td *ngIf="item.done"> |>> You've done this! </td>
-        <td *ngIf="!item.done"> |>> Not done yet! </td>
-      </tr>
-    </table>
-  </div>
-
+<div *ngIf="!errorMessage && !isLoading" class="container">
+  <h2 class="text-effect">{{bucketlist}}</h2>
+  <button class="btn shadow" (click)="addbucketlistitem = true">
+    <clr-icon shape="add"></clr-icon>
+    Add new bucket list item
+  </button>
 </div>
 
-<div *ngIf="errorMessage.status == 404">404<br>The bucketlist does not exist</div>
+<div *ngIf="!errorMessage && items && !isLoading" class="container">
+  <h1 *ngIf="!items.length" class="center-h1">Empty</h1>
 
-<p *ngIf="!items.length && !errorMessage">Empty</p>
+  <div class="row">
+    <div *ngFor="let item of items" class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+      <div class="card shadow">
+        <div class="card-block">
+          <h3 class="card-title">{{item.name}}</h3>
+          <span *ngIf="item.done" class="label label-purple">Done</span>
+          <span *ngIf="!item.done" class="label">Not Done</span>
+          <hr class="divider">
+          <p *ngIf="item.description" class="card-text em">
+            <br>
+            {{item.description}}
+          </p>
+          <p style="font-style: italic" *ngIf="!item.description" class="card-text em">
+            <br>
+            No description
+          </p>
+          <span class="p6">Modified:</span>
+          <span class="p5 tooltip tooltip-md tooltip-top-right">{{item.date_modified | relativeDate}} |
+              <span class="tooltip-content">{{item.date_modified | date:'EEE, MMMM dd, y hh:mm:ss a (Z)'}}</span>
+            </span>
+          <span class="p6">Created:</span>
+          <span class="p5 tooltip tooltip-md tooltip-bottom-left">{{item.date_created | relativeDate}}
+              <span class="tooltip-content">{{item.date_created | date:'EEE, MMMM dd, y hh:mm:ss a (Z)'}}</span>
+          </span>
+        </div>
+
+        <div class="card-footer">
+          <div class="btn-group btn-link btn-icon-link">
+            <button class="btn">
+              <clr-icon style="color: #390256" shape="edit"
+                        (click)="selectBucketListItem(item); editbucketlistitem = true"></clr-icon>
+              <span class="clr-icon-title">Edit</span>
+            </button>
+            <button class="btn">
+              <clr-icon shape="remove" class="is-red"
+                        (click)="selectBucketListItem(item); deletebucketlistitem = true"></clr-icon>
+              <span class="clr-icon-title">Delete</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<clr-modal [(clrModalOpen)]="addbucketlistitem">
+  <h3 class="modal-title">Add new Item</h3>
+  <div class="modal-body">
+    <p>Stuff</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn" (click)="addbucketlistitem = false">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="addbucketlistitem = false">Ok</button>
+  </div>
+</clr-modal>
+
+<clr-modal *ngIf="selectedBucketListItem" [(clrModalOpen)]="editbucketlistitem">
+  <h3 class="modal-title">Edit <strong>{{selectedBucketListItem.name}}</strong></h3>
+  <div class="modal-body">
+    <p>Stuff</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn" (click)="editbucketlistitem = false">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="editbucketlistitem = false">Ok</button>
+  </div>
+</clr-modal>
+
+<clr-modal *ngIf="selectedBucketListItem" [(clrModalOpen)]="deletebucketlistitem">
+  <h3 class="modal-title">Delete <strong>{{selectedBucketListItem.name}}</strong>?</h3>
+  <div class="modal-body">
+    <p>This action cannot be undone</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn" (click)="deletebucketlistitem = false">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="deletebucketlistitem = false">Ok</button>
+  </div>
+</clr-modal>
+
+<h1 *ngIf="errorMessage" class="center-h1">
+  {{errorMessage.status}}:
+  {{errorMessage.message}}
+</h1>
+
+<!--<div class="modal fade" bsModal #deleteModal="bs-modal" [config]="{backdrop: true}">-->
+
+  <!--<div class="modal-dialog modal-md">-->
+
+    <!--<div class="modal-content">-->
+
+      <!--<div class="modal-header">-->
+        <!--<h5 class="modal-title pull-left" *ngIf="selectedBucketListItem">-->
+          <!--Delete-->
+          <!--<strong><em>{{selectedBucketListItem.name}}?</em></strong>-->
+        <!--</h5>-->
+        <!--<button type="button" class="close pull-right" (click)="deleteModal.hide()">-->
+          <!--<span >&times;</span>-->
+        <!--</button>-->
+      <!--</div>-->
+
+      <!--<div class="modal-body">-->
+        <!--This is static modal, backdrop click will not close it.-->
+        <!--Click <b>&times;</b> to close modal.-->
+      <!--</div>-->
+
+    <!--</div>-->
+
+  <!--</div>-->
+<!--</div>-->
+
+
+<!--<div class="modal fade" bsModal #editModal="bs-modal" [config]="{backdrop: true}">-->
+
+  <!--<div class="modal-dialog modal-md">-->
+
+    <!--<div class="modal-content">-->
+
+      <!--<div class="modal-header">-->
+        <!--<h5 class="modal-title pull-left" *ngIf="selectedBucketListItem">-->
+          <!--Edit-->
+          <!--<strong><em>{{selectedBucketListItem.name}}</em></strong>-->
+        <!--</h5>-->
+        <!--<button type="button" class="close pull-right" (click)="editModal.hide()">-->
+          <!--<span >&times;</span>-->
+        <!--</button>-->
+      <!--</div>-->
+
+      <!--<div class="modal-body">-->
+        <!--This is static modal, backdrop click will not close it.-->
+        <!--Click <b>&times;</b> to close modal.-->
+      <!--</div>-->
+
+    <!--</div>-->
+
+  <!--</div>-->
+<!--</div>-->
+
+
+
+
+

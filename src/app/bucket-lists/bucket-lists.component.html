@@ -1,29 +1,141 @@
-<p>
-  bucket-lists works!
-</p>
+<span *ngIf="isLoading && ! errorMessage" class="spinner spinner-lg center-h1"></span>
 
-<div *ngIf="isLoading && ! errorMessage">Loading...</div>
 
-<table>
-  <tr *ngFor="let bucketlist of bucketLists" (click)="selectBucketList(bucketlist)">
-    <td> {{bucketlist.name}} ||| {{bucketlist.items.length}} items </td>
-    <td> </td>
-    <td>
-      <button routerLink="/bucketlists/{{bucketlist.id}}">
-      open
-      </button>
-    </td>
-  </tr>
-</table>
+<!--<div *ngIf="!errorMessage && !isLoading" class="container">-->
+  <!--<h2>Bucket Lists</h2>-->
+  <!--<button class="btn">-->
+    <!--Add new bucket list-->
+  <!--</button>-->
+  <!--<br>-->
+  <!--<br>-->
 
-<div *ngIf="selectedBucketList">
-  <h2>You selected:  {{ selectedBucketList.name }}</h2>
-  <h3>Details</h3>
-  <p>
-    {{selectedBucketList.name}} was created on {{selectedBucketList.date_created | date:'fullDate' }}
-    <br>and was modified on {{selectedBucketList.date_modified | date:'fullDate' }}
-    <br>and has {{itemsNumber}} items
-  </p>
+  <!--<table class="table">-->
+    <!--<tr *ngFor="let bucketlist of bucketLists" (click)="selectBucketList(bucketlist)">-->
+      <!--<td> {{bucketlist.name}}-->
+        <!--<a routerLink="/bucketlists/{{bucketlist.id}}" class="label label-purple clickable">-->
+          <!--Items-->
+          <!--<span class="badge">{{bucketlist.items.length}}</span>-->
+        <!--</a>-->
+      <!--</td>-->
+      <!--<td>-->
+        <!--<button class="btn" routerLink="/bucketlists/{{bucketlist.id}}">-->
+        <!--Open-->
+        <!--</button>-->
+      <!--</td>-->
+      <!--<td>-->
+        <!--<button class="btn">-->
+          <!--Edit-->
+        <!--</button>-->
+      <!--</td>-->
+      <!--<td>-->
+        <!--<button class="btn btn-outline-danger">-->
+          <!--Delete-->
+        <!--</button>-->
+      <!--</td>-->
+    <!--</tr>-->
+  <!--</table>-->
+<!--</div>-->
+
+<!--<br>-->
+<!--<div class="container" *ngIf="selectedBucketList">-->
+  <!--<h2>You selected:  {{ selectedBucketList.name }}</h2>-->
+  <!--<h3>Details</h3>-->
+  <!--<p>-->
+    <!--{{selectedBucketList.name}} was created on {{selectedBucketList.date_created | date:'fullDate' }}-->
+    <!--<br>and was modified on {{selectedBucketList.date_modified | date:'fullDate' }}-->
+    <!--<br>and has {{selectedBucketList.items.length}} items-->
+  <!--</p>-->
+<!--</div>-->
+
+<div *ngIf="!errorMessage && !isLoading" class="container">
+  <button class="btn shadow" (click)="addbucketlist = true">
+  Add new bucket list
+  </button>
+  <div class="row">
+    <div *ngFor="let bucketlist of bucketLists" class="col-lg-4 col-md-6 col-sm-12 col-xs-12"
+         (click)="selectBucketList(bucketlist)">
+      <div class="card shadow">
+        <div class="card-block">
+          <h3 class="card-title">{{bucketlist.name}}
+            <a routerLink="/bucketlists/{{bucketlist.id}}" class="label label-purple clickable">
+              Items
+              <span class="badge">{{bucketlist.items.length}}</span>
+            </a>
+          </h3>
+          <p class="card-text">
+          </p>
+        </div>
+        <a routerLink="/bucketlists/{{bucketlist.id}}" class="card-img">
+          <img *ngIf="bucketlist.id % 2 == 0" src="../../assets/img/card-img.png" alt="card-image">
+          <img *ngIf="bucketlist.id % 2 == 1" src="../../assets/img/card-img2.png" alt="card-image">
+        </a>
+        <div class="card-footer">
+          <span class="p6">Modified:</span>
+          <span class="p5 tooltip tooltip-md tooltip-top-right">{{bucketlist.date_modified | relativeDate}}
+              <span class="tooltip-content">{{bucketlist.date_modified | date:'EEE, MMMM dd, y hh:mm:ss a (Z)'}}</span>
+          </span>
+          <br>
+          <span class="p6">Created:</span>
+          <span class="p5 tooltip tooltip-md tooltip-bottom-left">{{bucketlist.date_created | relativeDate}}
+              <span class="tooltip-content">{{bucketlist.date_created | date:'EEE, MMMM dd, y hh:mm:ss a (Z)'}}</span>
+          </span>
+          <br>
+          <div class="btn-group btn-link btn-icon-link">
+            <button class="btn">
+              <clr-icon style="color: #390256" shape="edit" (click)="editbucketlist = true"></clr-icon>
+              <span class="clr-icon-title">Edit</span>
+            </button>
+            <button class="btn">
+              <clr-icon shape="remove" class="is-red" (click)="deletebucketlist = true"></clr-icon>
+              <span class="clr-icon-title">Delete</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div *ngIf="errorMessage">{{errorMessage.status}} {{errorMessage.error}}</div>
+<clr-modal [(clrModalOpen)]="addbucketlist">
+  <h3 class="modal-title">Add new Bucket List</h3>
+  <div class="modal-body">
+    <input type="text" id="bucketlist_name" placeholder="Bucket list name..." size="45"
+           required [(ngModel)]="bucketlistname">
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn" (click)="addbucketlist = false">Cancel</button>
+    <button [clrLoading]="submitLoading" type="submit" class="btn btn-primary"
+            (click)="addBucketList(bucketlistname); bucketlistname = null; addbucketlist = false" >Add
+    </button>
+  </div>
+</clr-modal>
+
+<clr-modal *ngIf="selectedBucketList" [(clrModalOpen)]="editbucketlist">
+  <h3 class="modal-title">Edit <strong>'{{selectedBucketList.name}}'</strong></h3>
+  <div class="modal-body">
+    <label>Name</label>
+    <input type="text" id="new_bucketlist_name" placeholder="New Bucket list name..." size="40"
+           required [(ngModel)]="selectedBucketList.name">
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn" (click)="editbucketlist = false">Cancel</button>
+    <button type="button" class="btn btn-primary"
+            (click)="updateBucketList(selectedBucketList, selectedBucketList.name);
+            editbucketlist = false">Save
+    </button>
+  </div>
+</clr-modal>
+
+<clr-modal *ngIf="selectedBucketList" [(clrModalOpen)]="deletebucketlist">
+  <h3 class="modal-title">Delete <strong>'{{selectedBucketList.name}}'</strong>?</h3>
+  <div class="modal-body">
+    <p>This action cannot be undone</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn" (click)="deletebucketlist = false">Cancel</button>
+    <button type="button" class="btn btn-danger"
+            (click)="deleteBucketList(selectedBucketList); deletebucketlist = false">Delete</button>
+  </div>
+</clr-modal>
+
+<div *ngIf="errorMessage" class="center-h1">{{errorMessage.status}} {{errorMessage.error}}</div>
