@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { AuthorizationService } from './authorization.service';
-import {UserRegister} from "./user-registration-details";
+import { UserRegister } from "./user-registration-details";
 
 @Component({
   selector: 'app-authorization',
@@ -13,9 +13,10 @@ import {UserRegister} from "./user-registration-details";
 
 export class RegisterComponent implements OnInit {
   isLoading = false;
+  errorMessage: any = '';
+  data: any;
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private authorizationService: AuthorizationService) { }
 
@@ -24,14 +25,23 @@ export class RegisterComponent implements OnInit {
     this.authorizationService.logout();
   }
 
-  register(userModel: UserRegister) {
+  register(name: string, username: string, email: string, password: string, password_again: string) {
     this.isLoading = true;
-    this.authorizationService.registerUser(userModel)
+    let user: UserRegister = {
+      "name": name,
+      "username": username,
+      "email": email,
+      "password": password,
+      "password_again": password_again
+    };
+    this.authorizationService.registerUser(user)
       .subscribe(
         data => {
+          this.data = data;
           this.router.navigate(['/login']);
         },
         error => {
+          this.errorMessage = error.json();
           this.isLoading = false;
         });
   }
