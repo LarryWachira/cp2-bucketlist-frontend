@@ -3,8 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { WelcomeComponent } from './welcome/welcome.component'
 import { BucketListsComponent } from './bucket-lists/bucket-lists.component';
 import { BucketListDetailsComponent } from './bucket-list-details/bucket-list-details.component';
-import {AuthorizationComponent} from "./authorization/authorization.component";
-import {RegisterComponent} from "./authorization/register.component";
+import { AuthorizationComponent } from "./authorization/authorization.component";
+import { RegisterComponent } from "./authorization/register.component";
+import { AuthorizationGuard } from "./authorization/authorization.guard";
 
 
 // Map routes to components
@@ -12,7 +13,7 @@ const routes: Routes = [
   // map '/welcome' to the welcome component
   {
     path: 'welcome',
-    component: WelcomeComponent
+    component: WelcomeComponent,
   },
   // map '/login' to the login component
   {
@@ -27,12 +28,14 @@ const routes: Routes = [
   // map '/bucketLists' to the bucket list component
   {
     path: 'bucketlists',
-    component: BucketListsComponent
+    component: BucketListsComponent,
+    canActivate: [AuthorizationGuard]
   },
   // map '/bucketLists/:id' to bucket list details component
   {
     path: 'bucketlists/:id',
-    component: BucketListDetailsComponent
+    component: BucketListDetailsComponent,
+    canActivate: [AuthorizationGuard]
   },
   // map '*' to '/welcome' as the default route
   {
