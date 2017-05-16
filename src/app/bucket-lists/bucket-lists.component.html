@@ -36,17 +36,6 @@
   <!--</table>-->
 <!--</div>-->
 
-<!--<br>-->
-<!--<div class="container" *ngIf="selectedBucketList">-->
-  <!--<h2>You selected:  {{ selectedBucketList.name }}</h2>-->
-  <!--<h3>Details</h3>-->
-  <!--<p>-->
-    <!--{{selectedBucketList.name}} was created on {{selectedBucketList.date_created | date:'fullDate' }}-->
-    <!--<br>and was modified on {{selectedBucketList.date_modified | date:'fullDate' }}-->
-    <!--<br>and has {{selectedBucketList.items.length}} items-->
-  <!--</p>-->
-<!--</div>-->
-
 <div *ngIf="!errorMessage && !isLoading" class="container">
   <button class="btn shadow" (click)="addbucketlist = true">
   Add new bucket list
@@ -54,7 +43,7 @@
   <div class="row">
     <div *ngFor="let bucketlist of bucketLists" class="col-lg-4 col-md-6 col-sm-12 col-xs-12"
          (click)="selectBucketList(bucketlist)">
-      <div class="card shadow">
+      <div class="fadeIn card shadow">
         <div class="card-block">
           <h3 class="card-title">{{bucketlist.name}}
             <a routerLink="/bucketlists/{{bucketlist.id}}" class="label label-purple clickable">
@@ -99,8 +88,15 @@
 <clr-modal [(clrModalOpen)]="addbucketlist">
   <h3 class="modal-title">Add new Bucket List</h3>
   <div class="modal-body">
-    <input type="text" id="bucketlist_name" placeholder="Bucket list name..." size="45"
-           required [(ngModel)]="bucketlistname">
+    <form #addList="ngForm">
+      <section class="form-block">
+        <div class="form-group">
+          <label>Name of Bucket List</label>
+          <input type="text" id="bucketlist_name" placeholder="Bucket list name..." size="50"
+                 required [(ngModel)]="bucketlistname" name="bucketlistname">
+        </div>
+      </section>
+    </form>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn" (click)="addbucketlist = false">Cancel</button>
@@ -111,11 +107,17 @@
 </clr-modal>
 
 <clr-modal *ngIf="selectedBucketList" [(clrModalOpen)]="editbucketlist">
-  <h3 class="modal-title">Edit <strong>'{{selectedBucketList.name}}'</strong></h3>
+  <h3 class="modal-title">Edit '<strong>{{selectedBucketList.name}}</strong>'</h3>
   <div class="modal-body">
-    <label>Name</label>
-    <input type="text" id="new_bucketlist_name" placeholder="New Bucket list name..." size="40"
-           required [(ngModel)]="selectedBucketList.name">
+    <form #editList="ngForm">
+      <section class="form-block">
+        <div class="form-group">
+          <label>Edit Name</label>
+          <input type="text" id="new_bucketlist_name" placeholder="New Bucket list name..." size="40"
+                 required [(ngModel)]="selectedBucketList.name" name="name">
+        </div>
+      </section>
+    </form>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn" (click)="editbucketlist = false">Cancel</button>
@@ -127,7 +129,7 @@
 </clr-modal>
 
 <clr-modal *ngIf="selectedBucketList" [(clrModalOpen)]="deletebucketlist">
-  <h3 class="modal-title">Delete <strong>'{{selectedBucketList.name}}'</strong>?</h3>
+  <h3 class="modal-title">Delete '<strong>{{selectedBucketList.name}}</strong>'?</h3>
   <div class="modal-body">
     <p>This action cannot be undone</p>
   </div>
