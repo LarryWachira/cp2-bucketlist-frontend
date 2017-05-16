@@ -11,7 +11,7 @@ import { BucketList } from "../bucket-list-details/bucket-list-details";
 })
 
 export class BucketListsComponent implements OnInit {
-  bucketLists : BucketList[];
+  bucketLists : BucketList[] = [];
   selectedBucketList: BucketList;
   message: string;
   // itemsNumber: number;
@@ -35,8 +35,8 @@ export class BucketListsComponent implements OnInit {
         data => {
           this.bucketLists = data.bucketlists;
         },
-        error => this.errorMessage = error.json(),
-        () => this.isLoading = false);
+        error => this.errorMessage = error.json());
+    this.isLoading = false;
   }
 
   addBucketList(name: string): void {
@@ -47,11 +47,11 @@ export class BucketListsComponent implements OnInit {
       .subscribe(
         data => {
           this.message = data.message;
-          this.submitLoading = false;
           this.getBucketLists();
         },
         error => this.errorMessage = error.json());
     this.submitLoading = false;
+    this.isLoading = false;
   }
 
   updateBucketList(bucketlist: BucketList, name: string): void {
@@ -66,6 +66,7 @@ export class BucketListsComponent implements OnInit {
           this.getBucketLists();
         },
         error => this.errorMessage = error.json());
+    this.isLoading = false;
     this.submitLoading = false;
   }
 
