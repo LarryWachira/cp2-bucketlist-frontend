@@ -1,4 +1,4 @@
-<span *ngIf="isLoading && ! errorMessage" class="spinner spinner-lg center-h1"></span>
+<span *ngIf="isLoading" class="spinner spinner-lg center-h1"></span>
 
 
 <!--<div *ngIf="!errorMessage && !isLoading" class="container">-->
@@ -36,10 +36,13 @@
   <!--</table>-->
 <!--</div>-->
 
-<div *ngIf="!errorMessage && !isLoading" class="container">
+<div *ngIf="!isLoading" class="container">
   <button class="btn shadow" (click)="addbucketlist = true">
   Add new bucket list
   </button>
+  <div *ngIf="bucketLists && !bucketLists.length">
+    <h1 *ngIf="!bucketLists.length" class="center-h1">No bucketlists have been added</h1>
+  </div>
   <div class="row">
     <div *ngFor="let bucketlist of bucketLists" class="col-lg-4 col-md-6 col-sm-12 col-xs-12"
          (click)="selectBucketList(bucketlist)">
@@ -140,4 +143,4 @@
   </div>
 </clr-modal>
 
-<div *ngIf="errorMessage" class="center-h1">{{errorMessage.status}} {{errorMessage.error}}</div>
+<!--<div *ngIf="errorMessage" class="center-h1">{{errorMessage.status}} {{errorMessage.error}}</div>-->
