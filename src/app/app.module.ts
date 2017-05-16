@@ -11,10 +11,12 @@ import { AppComponent } from './app.component';
 import { BucketListsComponent } from './bucket-lists/bucket-lists.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { BucketListDetailsComponent } from './bucket-list-details/bucket-list-details.component';
-import { RelativeDatePipe } from "./app.utils";
-import { AuthorizationComponent } from './authorization/authorization.component';
+import { DateFormatPipe, RelativeDatePipe } from "./app.utils";
+import { LoginComponent } from './authorization/login.component';
 import { RegisterComponent } from "./authorization/register.component";
 import { AuthorizationGuard } from "./authorization/authorization.guard";
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { SearchComponent } from './search/search.component';
 
 
 @NgModule({
@@ -24,8 +26,11 @@ import { AuthorizationGuard } from "./authorization/authorization.guard";
     BucketListsComponent,
     BucketListDetailsComponent,
     RelativeDatePipe,
-    AuthorizationComponent,
-    RegisterComponent
+    DateFormatPipe,
+    LoginComponent,
+    RegisterComponent,
+    DashboardComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
