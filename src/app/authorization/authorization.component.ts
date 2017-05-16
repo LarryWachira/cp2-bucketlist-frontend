@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import { Router } from '@angular/router';
 
 import { AuthorizationService } from './authorization.service';
 
@@ -10,21 +10,19 @@ import { AuthorizationService } from './authorization.service';
 })
 
 
-export class LoginComponent implements OnInit {
+export class AuthorizationComponent implements OnInit {
   isLoading = false;
-  returnUrl: string;
+  errorMessage: any = '';
+  data: any;
+  currentUser: object;
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private authorizationService: AuthorizationService) { }
 
   ngOnInit() {
     // reset login status
     this.authorizationService.logout();
-
-    // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   logIn(username: string, password: string) {
@@ -32,11 +30,20 @@ export class LoginComponent implements OnInit {
     this.authorizationService.login(username, password)
       .subscribe(
         data => {
-          this.router.navigate([this.returnUrl]);
+          this.data = data;
+          location.reload();
+          this.router.navigate(['/bucketlists']);
         },
         error => {
           this.isLoading = false;
+          this.errorMessage = error.json()
         });
   }
+
+  // updateUser(): void {
+  //   this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  //   this.updateCurrentUser.emit(this.currentUser);
+  //   console.log(this.currentUser)
+  // }
 
 }
