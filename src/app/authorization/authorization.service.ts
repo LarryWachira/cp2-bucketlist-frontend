@@ -13,12 +13,12 @@ export class AuthorizationService {
 
   constructor(private http: Http) { }
 
-  registerUser(user: UserRegister): Observable<any>{
+  registerUser(user: UserRegister): Observable<any> {
     return this.http.post(this.apiUrl + '/auth/register', JSON.stringify(user), {headers: this.getHeaders()})
       .map((response: Response) => response.json());
   }
 
-  login(username: string, password: string) {
+  login(username: string, password: string): Observable<any> {
     return this.http.post(this.apiUrl + '/auth/login', { username: username, password: password },
       {headers: this.getHeaders()})
       .map((response: Response) => {
