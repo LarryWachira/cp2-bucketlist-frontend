@@ -36,7 +36,7 @@ import { AuthorizationGuard } from "./authorization/authorization.guard";
     ClarityModule.forRoot(),
   ],
   providers: [AuthorizationGuard],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 
 
