@@ -22,7 +22,7 @@ export class BucketListDetailsComponent implements OnInit {
   selectedBucketListItem: BucketListItem;
   bucketListUrl: string;
   addBucketListItemUrl: string;
-  errorMessage: string = '';
+  errorMessage: any = '';
   isLoading: boolean = true;
   submitLoading: boolean;
   responseStatus: string;
@@ -52,15 +52,15 @@ export class BucketListDetailsComponent implements OnInit {
         () => this.isLoading = false );
   }
 
-  addBucketListItem(name: string) {
+  addBucketListItem(name: string, description: string, done: boolean) {
     this.submitLoading = true;
-    console.log(name);
+    console.log(name, description, done);
     this.route.params.subscribe((params: Params) => {
       this.id = params['id'];
     });
     this.addBucketListItemUrl = this.apiUrl + `/bucketlists/${this.id}/items`;
     this._bucketListDetailsService
-      .addItemService(this.addBucketListItemUrl, name)
+      .addItemService(this.addBucketListItemUrl, name, description, done)
       .subscribe(
         data => {
           this.message = data.message;
@@ -71,13 +71,13 @@ export class BucketListDetailsComponent implements OnInit {
     this.submitLoading = false;
   }
 
-  editBucketListItem(bucketlistitem: BucketListItem, name: string, description: string, done: boolean) {
+  editBucketListItem(name: string, description: string, done: boolean) {
     this.submitLoading = true;
     this.body = {"name": name, "description": description, "done": done};
 
-    console.log(name);
+    console.log(name, description, done);
     this._bucketListDetailsService
-      .updateItemService(bucketlistitem, this.body)
+      .updateItemService(this.selectedBucketListItem, this.body)
       .subscribe(
         data => {
           this.message = data.message;
