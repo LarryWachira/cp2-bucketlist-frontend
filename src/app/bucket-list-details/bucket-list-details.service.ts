@@ -42,10 +42,12 @@ export class BucketListDetailsService {
   }
 
   private getHeaders() {
+    let currentUser: any = JSON.parse(localStorage.getItem('currentUser'));
+    let token: string = currentUser.token;
     let headers = new Headers();
     headers.append('Accept', 'application/json');
     headers.append('Content-Type', 'application/json');
-    headers.append('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsImlhdCI6MTQ5NDU3NDQzNiwiZXhwIjoxNDk1MTc5MjM2fQ.eyJpZCI6Mn0.TISfxUTeHnKc5e5dMfS13XAXmyz4mHsK113TQPnE02c');
+    headers.append('Authorization', token);
     return headers;
   }
 }
