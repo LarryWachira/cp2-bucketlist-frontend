@@ -20,8 +20,8 @@ export class BucketListDetailsService {
   }
 
   // Add a new bucket list item
-  addItemService (addBucketListItemUrl: string ,name: string): Observable<any> {
-    let payload = JSON.stringify({ "name": name }); // Stringify payload
+  addItemService (addBucketListItemUrl: string, name: string, description: string, done: boolean): Observable<any> {
+    let payload = JSON.stringify({ "name": name, "description": description, "done": done }); // Stringify payload
 
     return this.http.post(addBucketListItemUrl, payload, {headers: this.getHeaders()})
       .map((response:Response) => response.json());
@@ -37,7 +37,7 @@ export class BucketListDetailsService {
 
   // Delete a bucket list item
   deleteItemService (bucketListItem: BucketListItem): Observable<any> {
-    return this.http.delete(bucketListItem.url)
+    return this.http.delete(bucketListItem.url, {headers: this.getHeaders()})
       .map((response:Response) => response.json());
   }
 
