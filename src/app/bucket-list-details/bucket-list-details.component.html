@@ -28,9 +28,10 @@
             No description
           </p>
           <span class="p6">Modified:</span>
-          <span class="p5 tooltip tooltip-md tooltip-top-right">{{item.date_modified | relativeDate}} |
+          <span class="p5 tooltip tooltip-md tooltip-top-right">{{item.date_modified | relativeDate}}
               <span class="tooltip-content">{{item.date_modified | date:'EEE, MMMM dd, y hh:mm:ss a (Z)'}}</span>
-            </span>
+          </span>
+          <br>
           <span class="p6">Created:</span>
           <span class="p5 tooltip tooltip-md tooltip-bottom-left">{{item.date_created | relativeDate}}
               <span class="tooltip-content">{{item.date_created | date:'EEE, MMMM dd, y hh:mm:ss a (Z)'}}</span>
@@ -60,95 +61,87 @@
 <clr-modal [(clrModalOpen)]="addbucketlistitem">
   <h3 class="modal-title">Add new Item</h3>
   <div class="modal-body">
-    <p>Stuff</p>
+    <form #addItem="ngForm">
+      <section class="form-block">
+        <div class="form-group">
+          <label for="name">New item name</label>
+          <input type="text" id="name" placeholder="Enter value here" size="45" required
+                 [(ngModel)]="name" name="name">
+        </div>
+        <div class="form-group">
+          <label for="done">Have you done this item?</label>
+          <div class="select">
+            <select id="done"
+                    [(ngModel)]="done" name="done">
+              <option [ngValue]="true">Done</option>
+              <option [ngValue]="false">Not done</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" rows="3" [(ngModel)]="description" name="description"></textarea>
+        </div>
+      </section>
+    </form>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn" (click)="addbucketlistitem = false">Cancel</button>
-    <button type="button" class="btn btn-primary" (click)="addbucketlistitem = false">Ok</button>
+    <button [clrLoading]="submitLoading" type="submit" class="btn btn-primary"
+            (click)="addBucketListItem(name, description, done); addItem.reset(); addbucketlistitem = false">Add
+    </button>
   </div>
 </clr-modal>
 
 <clr-modal *ngIf="selectedBucketListItem" [(clrModalOpen)]="editbucketlistitem">
-  <h3 class="modal-title">Edit <strong>{{selectedBucketListItem.name}}</strong></h3>
+  <h3 class="modal-title">Edit '<strong>{{selectedBucketListItem.name}}</strong>'</h3>
   <div class="modal-body">
-    <p>Stuff</p>
+    <form #editItem="ngForm">
+      <section class="form-block">
+        <div class="form-group">
+          <label for="newname">Edit item name</label>
+          <input type="text" id="newname" placeholder="Enter value here" size="45" required
+                 [(ngModel)]="selectedBucketListItem.name" name="name">
+        </div>
+        <div class="form-group">
+          <label for="newdone">Update done status</label>
+          <div class="select">
+            <select id="newdone" [(ngModel)]="selectedBucketListItem.done" name="done">
+              <option [ngValue]="true">Done</option>
+              <option [ngValue]="false">Not done</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="newdescription">Edit Description</label>
+          <textarea id="newdescription" rows="3" [(ngModel)]="selectedBucketListItem.description" name="description">
+          </textarea>
+        </div>
+      </section>
+    </form>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn" (click)="editbucketlistitem = false">Cancel</button>
-    <button type="button" class="btn btn-primary" (click)="editbucketlistitem = false">Ok</button>
+    <button type="button" class="btn btn-primary"
+            (click)="editBucketListItem(selectedBucketListItem.name, selectedBucketListItem.description,
+             selectedBucketListItem.done); editbucketlistitem = false">Save
+    </button>
   </div>
 </clr-modal>
 
 <clr-modal *ngIf="selectedBucketListItem" [(clrModalOpen)]="deletebucketlistitem">
-  <h3 class="modal-title">Delete <strong>{{selectedBucketListItem.name}}</strong>?</h3>
+  <h3 class="modal-title">Delete '<strong>{{selectedBucketListItem.name}}</strong>'?</h3>
   <div class="modal-body">
     <p>This action cannot be undone</p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn" (click)="deletebucketlistitem = false">Cancel</button>
-    <button type="button" class="btn btn-primary" (click)="deletebucketlistitem = false">Ok</button>
+    <button type="button" class="btn btn-danger"
+            (click)="deleteBucketListItem(selectedBucketListItem); deletebucketlistitem = false">Delete</button>
   </div>
 </clr-modal>
 
 <h1 *ngIf="errorMessage" class="center-h1">
-  {{errorMessage.status}}:
+  {{errorMessage.status}}
   {{errorMessage.message}}
 </h1>
-
-<!--<div class="modal fade" bsModal #deleteModal="bs-modal" [config]="{backdrop: true}">-->
-
-  <!--<div class="modal-dialog modal-md">-->
-
-    <!--<div class="modal-content">-->
-
-      <!--<div class="modal-header">-->
-        <!--<h5 class="modal-title pull-left" *ngIf="selectedBucketListItem">-->
-          <!--Delete-->
-          <!--<strong><em>{{selectedBucketListItem.name}}?</em></strong>-->
-        <!--</h5>-->
-        <!--<button type="button" class="close pull-right" (click)="deleteModal.hide()">-->
-          <!--<span >&times;</span>-->
-        <!--</button>-->
-      <!--</div>-->
-
-      <!--<div class="modal-body">-->
-        <!--This is static modal, backdrop click will not close it.-->
-        <!--Click <b>&times;</b> to close modal.-->
-      <!--</div>-->
-
-    <!--</div>-->
-
-  <!--</div>-->
-<!--</div>-->
-
-
-<!--<div class="modal fade" bsModal #editModal="bs-modal" [config]="{backdrop: true}">-->
-
-  <!--<div class="modal-dialog modal-md">-->
-
-    <!--<div class="modal-content">-->
-
-      <!--<div class="modal-header">-->
-        <!--<h5 class="modal-title pull-left" *ngIf="selectedBucketListItem">-->
-          <!--Edit-->
-          <!--<strong><em>{{selectedBucketListItem.name}}</em></strong>-->
-        <!--</h5>-->
-        <!--<button type="button" class="close pull-right" (click)="editModal.hide()">-->
-          <!--<span >&times;</span>-->
-        <!--</button>-->
-      <!--</div>-->
-
-      <!--<div class="modal-body">-->
-        <!--This is static modal, backdrop click will not close it.-->
-        <!--Click <b>&times;</b> to close modal.-->
-      <!--</div>-->
-
-    <!--</div>-->
-
-  <!--</div>-->
-<!--</div>-->
-
-
-
-
-
