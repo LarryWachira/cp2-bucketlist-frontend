@@ -7,47 +7,37 @@
         <span class="title">Chum</span>
       </a>
     </div>
-    <div class="header-nav">
+    <div *ngIf="currentUser" class="header-nav">
       <a routerLink="/welcome" routerLinkActive="active" class="nav-link nav-text">Dashboard</a>
       <a routerLink="/bucketlists" routerLinkActive="active" class="nav-link nav-text">Bucket Lists</a>
     </div>
-    <form class="search">
+    <form *ngIf="currentUser" class="search">
       <label for="search_bucketlists">
         <input id="search_bucketlists" type="text" placeholder="Search for bucket list...">
       </label>
     </form>
     <div class="header-actions">
-      <a href="#" routerLinkActive="active" class="nav-link nav-text">
+      <a *ngIf="!currentUser" routerLink="/login" routerLinkActive="active" class="nav-link nav-text">
         Log In
       </a>
-      <a href="#" routerLinkActive="active" class="nav-link nav-text">
+      <a *ngIf="!currentUser" routerLink="/register" routerLinkActive="active" class="nav-link nav-text">
         Register
       </a>
-      <span class="nav-link nav-text">
-        Hi!
+      <span *ngIf="currentUser" class="nav-link nav-text">
+        Hi {{currentUser.username}}!
       </span>
-      <clr-dropdown clrMenuPosition="bottom-right">
+      <clr-dropdown *ngIf="currentUser" clrMenuPosition="bottom-right">
         <button class="nav-icon" clrDropdownToggle>
           <clr-icon shape="user"></clr-icon>
           <clr-icon shape="caret down"></clr-icon>
         </button>
         <clr-dropdown-menu>
           <a href="#" clrDropdownItem>About</a>
-          <a href="#" clrDropdownItem>Log out</a>
+          <a (click)="logOut()" clrDropdownItem>Log out</a>
         </clr-dropdown-menu>
       </clr-dropdown>
     </div>
   </header>
-  <!--<nav class="subnav">-->
-    <!--<ul class="nav">-->
-      <!--<li class="nav-item">-->
-        <!--<a class="nav-link active" routerLink="/bucketlists"> Bucketlists </a>-->
-      <!--</li>-->
-      <!--<li *ngIf="selectedBucketList" class="nav-item">-->
-        <!--<a class="nav-link active" routerLink="/bucketlists/{{selectedBucketList.id}}"> Bucketlists </a>-->
-      <!--</li>-->
-    <!--</ul>-->
-  <!--</nav>-->
   <div class="content-container">
     <div class="content-area">
       <router-outlet></router-outlet>
