@@ -12,6 +12,8 @@ import { BucketListsComponent } from './bucket-lists/bucket-lists.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { BucketListDetailsComponent } from './bucket-list-details/bucket-list-details.component';
 import {RelativeDatePipe} from "./app.utils";
+import { AuthorizationComponent } from './authorization/authorization.component';
+import {RegisterComponent} from "./authorization/register.component";
 
 
 @NgModule({
@@ -20,7 +22,9 @@ import {RelativeDatePipe} from "./app.utils";
     WelcomeComponent,
     BucketListsComponent,
     BucketListDetailsComponent,
-    RelativeDatePipe
+    RelativeDatePipe,
+    AuthorizationComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
