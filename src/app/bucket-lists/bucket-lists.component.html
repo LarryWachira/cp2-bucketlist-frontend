@@ -1,49 +1,11 @@
 <span *ngIf="isLoading" class="spinner spinner-lg center-h1"></span>
 
-
-<!--<div *ngIf="!errorMessage && !isLoading" class="container">-->
-  <!--<h2>Bucket Lists</h2>-->
-  <!--<button class="btn">-->
-    <!--Add new bucket list-->
-  <!--</button>-->
-  <!--<br>-->
-  <!--<br>-->
-
-  <!--<table class="table">-->
-    <!--<tr *ngFor="let bucketlist of bucketLists" (click)="selectBucketList(bucketlist)">-->
-      <!--<td> {{bucketlist.name}}-->
-        <!--<a routerLink="/bucketlists/{{bucketlist.id}}" class="label label-purple clickable">-->
-          <!--Items-->
-          <!--<span class="badge">{{bucketlist.items.length}}</span>-->
-        <!--</a>-->
-      <!--</td>-->
-      <!--<td>-->
-        <!--<button class="btn" routerLink="/bucketlists/{{bucketlist.id}}">-->
-        <!--Open-->
-        <!--</button>-->
-      <!--</td>-->
-      <!--<td>-->
-        <!--<button class="btn">-->
-          <!--Edit-->
-        <!--</button>-->
-      <!--</td>-->
-      <!--<td>-->
-        <!--<button class="btn btn-outline-danger">-->
-          <!--Delete-->
-        <!--</button>-->
-      <!--</td>-->
-    <!--</tr>-->
-  <!--</table>-->
-<!--</div>-->
-
-<div *ngIf="!isLoading" class="container">
+<div class="container">
   <button class="btn shadow" (click)="addbucketlist = true">
   Add new bucket list
   </button>
-  <div *ngIf="bucketLists && !bucketLists.length">
+  <div *ngIf="bucketLists && !isLoading" class="row">
     <h1 *ngIf="!bucketLists.length" class="center-h1">No bucketlists have been added</h1>
-  </div>
-  <div class="row">
     <div *ngFor="let bucketlist of bucketLists" class="col-lg-4 col-md-6 col-sm-12 col-xs-12"
          (click)="selectBucketList(bucketlist)">
       <div class="fadeIn card shadow">
@@ -63,13 +25,16 @@
         </a>
         <div class="card-footer">
           <span class="p6">Modified:</span>
-          <span class="p5 tooltip tooltip-md tooltip-top-right">{{bucketlist.date_modified | relativeDate}}
-              <span class="tooltip-content">{{bucketlist.date_modified | date:'EEE, MMMM dd, y hh:mm:ss a (Z)'}}</span>
+          <span class="p5 tooltip tooltip-md tooltip-top-right">{{bucketlist.date_modified | dateFormat | relativeDate}}
+              <span class="tooltip-content">
+                {{bucketlist.date_modified | dateFormat | date:'EEE, MMMM dd, y hh:mm:ss a (Z)'}}</span>
           </span>
           <br>
           <span class="p6">Created:</span>
-          <span class="p5 tooltip tooltip-md tooltip-bottom-left">{{bucketlist.date_created | relativeDate}}
-              <span class="tooltip-content">{{bucketlist.date_created | date:'EEE, MMMM dd, y hh:mm:ss a (Z)'}}</span>
+          <span class="p5 tooltip tooltip-md tooltip-bottom-left">
+            {{bucketlist.date_created | dateFormat | relativeDate}}
+              <span class="tooltip-content">
+                {{bucketlist.date_created | dateFormat | date:'EEE, MMMM dd, y hh:mm:ss a (Z)'}}</span>
           </span>
           <br>
           <div class="btn-group btn-link btn-icon-link">
