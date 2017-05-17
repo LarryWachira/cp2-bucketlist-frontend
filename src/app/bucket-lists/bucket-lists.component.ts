@@ -14,9 +14,7 @@ export class BucketListsComponent implements OnInit {
   bucketLists : BucketList[] = [];
   selectedBucketList: BucketList;
   message: string;
-  // itemsNumber: number;
   responseStatus: number;
-  // pages: number;
   submitLoading: boolean;
   errorMessage: any;
   isLoading: boolean = true;
@@ -35,13 +33,13 @@ export class BucketListsComponent implements OnInit {
         data => {
           this.bucketLists = data.bucketlists;
         },
-        error => this.errorMessage = error.json());
-    this.isLoading = false;
+        error => this.errorMessage = error.json(),
+        () => this.isLoading = false);
   }
 
   addBucketList(name: string): void {
     this.submitLoading = true;
-    console.log(name);
+
     this._bucketListService
       .addBucketListService(name)
       .subscribe(
@@ -56,7 +54,7 @@ export class BucketListsComponent implements OnInit {
 
   updateBucketList(bucketlist: BucketList, name: string): void {
     this.submitLoading = true;
-    console.log(name);
+
     this._bucketListService
       .updateBucketListService(bucketlist, name)
       .subscribe(
@@ -72,7 +70,7 @@ export class BucketListsComponent implements OnInit {
 
   deleteBucketList(bucketlist: BucketList): void {
     this.submitLoading = true;
-    console.log(bucketlist);
+
     this._bucketListService
       .deleteBucketListService(bucketlist)
       .subscribe(

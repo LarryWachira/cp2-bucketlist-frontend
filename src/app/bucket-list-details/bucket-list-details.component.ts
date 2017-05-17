@@ -54,7 +54,6 @@ export class BucketListDetailsComponent implements OnInit {
 
   addBucketListItem(name: string, description: string, done: boolean) {
     this.submitLoading = true;
-    console.log(name, description, done);
     this.route.params.subscribe((params: Params) => {
       this.id = params['id'];
     });
@@ -75,7 +74,6 @@ export class BucketListDetailsComponent implements OnInit {
     this.submitLoading = true;
     this.body = {"name": name, "description": description, "done": done};
 
-    console.log(name, description, done);
     this._bucketListDetailsService
       .updateItemService(this.selectedBucketListItem, this.body)
       .subscribe(
@@ -90,7 +88,7 @@ export class BucketListDetailsComponent implements OnInit {
 
   deleteBucketListItem(bucketlistitem: BucketListItem) {
     this.submitLoading = true;
-    console.log(bucketlistitem);
+
     this._bucketListDetailsService
       .deleteItemService(bucketlistitem)
       .subscribe(

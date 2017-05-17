@@ -1,9 +1,6 @@
 import {Injectable, Pipe, PipeTransform} from '@angular/core';
-import 'rxjs/add/operator/share';
-import 'rxjs/add/operator/startWith';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from "rxjs/Observable";
-
 
 
 /*
@@ -14,6 +11,7 @@ import {Observable} from "rxjs/Observable";
  *   {{ 86400 |  relativeDate}}
  *   formats to: '1 day ago'
  */
+
 
 // Epochs
 const epochs: any = [
@@ -114,7 +112,7 @@ export class AppGlobals {
     this.searchTerm.next(term);
   }
 
-  getSearchTerm(): Observable<any> {
+  getSearchTerm(): Observable<string> {
     return this.searchTerm.asObservable();
   }
 

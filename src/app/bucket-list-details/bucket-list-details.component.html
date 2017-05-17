@@ -1,6 +1,6 @@
 <span *ngIf="isLoading && ! errorMessage" class="spinner spinner-lg center-h1"></span>
 
-<div *ngIf="!errorMessage && !isLoading" class="container">
+<div *ngIf="!errorMessage" class="container">
   <h2 class="text-effect">{{bucketlist}}</h2>
   <button class="btn shadow" (click)="addbucketlistitem = true">
     <clr-icon shape="add"></clr-icon>
@@ -28,13 +28,15 @@
             No description
           </p>
           <span class="p6">Modified:</span>
-          <span class="p5 tooltip tooltip-md tooltip-top-right">{{item.date_modified | relativeDate}}
-              <span class="tooltip-content">{{item.date_modified | date:'EEE, MMMM dd, y hh:mm:ss a (Z)'}}</span>
+          <span class="p5 tooltip tooltip-md tooltip-top-right">{{item.date_modified | dateFormat | relativeDate}}
+              <span class="tooltip-content">
+                {{item.date_modified | dateFormat | date:'EEE, MMMM dd, y hh:mm:ss a (Z)'}}</span>
           </span>
           <br>
           <span class="p6">Created:</span>
-          <span class="p5 tooltip tooltip-md tooltip-bottom-left">{{item.date_created | relativeDate}}
-              <span class="tooltip-content">{{item.date_created | date:'EEE, MMMM dd, y hh:mm:ss a (Z)'}}</span>
+          <span class="p5 tooltip tooltip-md tooltip-bottom-left">{{item.date_created | dateFormat | relativeDate}}
+              <span class="tooltip-content">
+                {{item.date_created | dateFormat | date:'EEE, MMMM dd, y hh:mm:ss a (Z)'}}</span>
           </span>
         </div>
 
