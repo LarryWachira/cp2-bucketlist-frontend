@@ -1,4 +1,93 @@
-<p>
-  search works!
-  {{searchTerm}}
-</p>
+<span *ngIf="isLoading" class="spinner spinner-lg center-h1"></span>
+
+<div class="container">
+  <h2 *ngIf="results.bucketlists.length" class="text-effect">Search Results
+    <span *ngIf="searchTerm"> for <em>{{"\"" + searchTerm + "\""}}</em></span>
+  </h2>
+  <h1 *ngIf="!results.bucketlists.length && searchTerm" class="center-h1">No Results for
+    <em> {{"\"" + searchTerm + "\""}}</em>
+  </h1>
+  <h1 *ngIf="!searchTerm" class="center-h1">Type in the Search Field to Search </h1>
+  <div *ngIf="results.bucketlists.length && !isLoading" class="row">
+    <div *ngFor="let bucketlist of bucketLists" class="col-lg-4 col-md-6 col-sm-12 col-xs-12"
+         (click)="selectBucketList(bucketlist)">
+      <div class="fadeIn card shadow">
+        <div class="card-block">
+          <h3 class="card-title">{{bucketlist.name}}
+            <a routerLink="/bucketlists/{{bucketlist.id}}" class="label label-purple clickable">
+              Items
+              <span class="badge">{{bucketlist.items.length}}</span>
+            </a>
+          </h3>
+          <p class="card-text">
+          </p>
+        </div>
+        <a routerLink="/bucketlists/{{bucketlist.id}}" class="card-img">
+          <img *ngIf="bucketlist.id % 2 == 0" src="../../assets/img/card-img.png" alt="card-image">
+          <img *ngIf="bucketlist.id % 2 == 1" src="../../assets/img/card-img2.png" alt="card-image">
+        </a>
+        <div class="card-footer">
+          <span class="p6">Modified:</span>
+          <span class="p5 tooltip tooltip-md tooltip-top-right">{{bucketlist.date_modified | dateFormat | relativeDate}}
+              <span class="tooltip-content">
+                {{bucketlist.date_modified | dateFormat | date:'EEE, MMMM dd, y hh:mm:ss a (Z)'}}</span>
+          </span>
+          <br>
+          <span class="p6">Created:</span>
+          <span class="p5 tooltip tooltip-md tooltip-bottom-left">
+            {{bucketlist.date_created | dateFormat | relativeDate}}
+              <span class="tooltip-content">
+                {{bucketlist.date_created | dateFormat | date:'EEE, MMMM dd, y hh:mm:ss a (Z)'}}</span>
+          </span>
+          <br>
+          <div class="btn-group btn-link btn-icon-link">
+            <button class="btn">
+              <clr-icon style="color: #390256" shape="edit" (click)="editbucketlist = true"></clr-icon>
+              <span class="clr-icon-title">Edit</span>
+            </button>
+            <button class="btn">
+              <clr-icon shape="remove" class="is-red" (click)="deletebucketlist = true"></clr-icon>
+              <span class="clr-icon-title">Delete</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<clr-modal *ngIf="selectedBucketList" [(clrModalOpen)]="editbucketlist">
+  <h3 class="modal-title">Edit '<strong>{{selectedBucketList.name}}</strong>'</h3>
+  <div class="modal-body">
+    <form #editList="ngForm">
+      <section class="form-block">
+        <div class="form-group">
+          <label>Edit Name</label>
+          <input type="text" id="new_bucketlist_name" placeholder="New Bucket list name..." size="40"
+                 required [(ngModel)]="selectedBucketList.name" name="name">
+        </div>
+      </section>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn" (click)="editbucketlist = false">Cancel</button>
+    <button type="button" class="btn btn-primary"
+            (click)="updateBucketList(selectedBucketList, selectedBucketList.name);
+            editbucketlist = false">Save
+    </button>
+  </div>
+</clr-modal>
+
+<clr-modal *ngIf="selectedBucketList" [(clrModalOpen)]="deletebucketlist">
+  <h3 class="modal-title">Delete '<strong>{{selectedBucketList.name}}</strong>'?</h3>
+  <div class="modal-body">
+    <p>This action cannot be undone</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn" (click)="deletebucketlist = false">Cancel</button>
+    <button type="button" class="btn btn-danger"
+            (click)="deleteBucketList(selectedBucketList); deletebucketlist = false">Delete</button>
+  </div>
+</clr-modal>
+
+<!--<div *ngIf="errorMessage" class="center-h1">{{errorMessage.status}} {{errorMessage.error}}</div>-->
