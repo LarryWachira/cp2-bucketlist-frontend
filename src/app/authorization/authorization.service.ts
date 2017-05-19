@@ -18,17 +18,11 @@ export class AuthorizationService {
       .map((response: Response) => response.json());
   }
 
-  login(username: string, password: string): Observable<any> {
-    return this.http.post(this.apiUrl + '/auth/login', { username: username, password: password },
+  login(username: string, email: string, password: string): Observable<any> {
+    return this.http.post(this.apiUrl + '/auth/login',
+      JSON.stringify({ "username": username, "email": email , "password": password }),
       {headers: this.getHeaders()})
-      .map((response: Response) => {
-        // login successful if there's an authorization token in the response
-        let user = response.json();
-        if (user && user.token) {
-          // store user details and token in local storage to keep user logged in between page refreshes
-          localStorage.setItem('currentUser', JSON.stringify(user));
-        }
-      });
+      .map((response: Response) => response.json());
   }
 
   logout() {

@@ -4,13 +4,26 @@ h1 {
   font-size:      56px;
   letter-spacing: normal;
   line-height:    48px;
-  margin-top:     0px;
+  margin-top:     0;
   margin-bottom:  0;
+  z-index:        1;
+  text-shadow:    0 .05rem .1rem rgba(0,0,0,.5);
 }
 
 span {
-  color:          white;
+  color:          #390256;
   font-weight:    200;
   font-size:      28px;
   letter-spacing: normal;
+  text-align:     center;
+  text-shadow:    0 .05rem .1rem rgba(0,0,0,.5);
+}
+
+.center-h1 {
+  color:        #390256;
+  text-align:   center;
+  text-shadow:  0 .05rem .1rem rgba(0,0,0,.5);
+  top:          50%;
+  left:         50%;
+  transform:    translate(-50%, -50%);
 }

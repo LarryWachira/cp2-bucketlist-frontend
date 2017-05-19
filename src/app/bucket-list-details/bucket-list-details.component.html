@@ -1,146 +1,147 @@
-<span *ngIf="isLoading && ! errorMessage" class="spinner spinner-lg center-h1"></span>
+<div class="background-vignette inner-shadow">
+  <span *ngIf="isLoading" class="spinner spinner-lg center-h1"></span>
 
-<div *ngIf="!errorMessage && !isLoading" class="container">
-  <h2 class="text-effect">{{bucketlist}}</h2>
-  <button class="btn shadow" (click)="addbucketlistitem = true">
-    <clr-icon shape="add"></clr-icon>
-    Add new bucket list item
-  </button>
-</div>
+  <div class="container">
+    <br>
+    <h2 class="text-effect col-lg-12">{{currentBucketList}}</h2>
+    <button class="btn shadow" (click)="addbucketlistitem = true">
+      <clr-icon shape="add"></clr-icon>
+      Add new bucket list item
+    </button>
+  </div>
 
-<div *ngIf="!errorMessage && items && !isLoading" class="container">
-  <h1 *ngIf="!items.length" class="center-h1">Empty</h1>
+  <div *ngIf="items && !isLoading" class="container">
+    <h1 *ngIf="!items.length" class="center-h1">Empty</h1>
 
-  <div class="row">
-    <div *ngFor="let item of items" class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-      <div class="card shadow">
-        <div class="card-block">
-          <h3 class="card-title">{{item.name}}</h3>
-          <span *ngIf="item.done" class="label label-purple">Done</span>
-          <span *ngIf="!item.done" class="label">Not Done</span>
-          <hr class="divider">
-          <p *ngIf="item.description" class="card-text em">
+    <div class="row">
+      <div *ngFor="let item of items" class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+        <div class="card shadow">
+          <div class="card-block">
+            <h3 class="card-title">{{item.name}}</h3>
+            <span *ngIf="item.done" class="label label-purple">Done</span>
+            <span *ngIf="!item.done" class="label">Not Done</span>
+            <hr class="divider">
+            <p *ngIf="item.description" class="card-text em">
+              <br>
+              {{item.description}}
+            </p>
+            <p style="font-style: italic" *ngIf="!item.description" class="card-text em">
+              <br>
+              No description
+            </p>
+            <span class="p6">Modified:</span>
+            <span class="p5 tooltip tooltip-md tooltip-top-right">{{item.date_modified | dateFormat | relativeDate}}
+                <span class="tooltip-content">
+                  {{item.date_modified | dateFormat | date:'EEE, MMMM dd, y hh:mm:ss a (Z)'}}</span>
+            </span>
             <br>
-            {{item.description}}
-          </p>
-          <p style="font-style: italic" *ngIf="!item.description" class="card-text em">
-            <br>
-            No description
-          </p>
-          <span class="p6">Modified:</span>
-          <span class="p5 tooltip tooltip-md tooltip-top-right">{{item.date_modified | relativeDate}}
-              <span class="tooltip-content">{{item.date_modified | date:'EEE, MMMM dd, y hh:mm:ss a (Z)'}}</span>
-          </span>
-          <br>
-          <span class="p6">Created:</span>
-          <span class="p5 tooltip tooltip-md tooltip-bottom-left">{{item.date_created | relativeDate}}
-              <span class="tooltip-content">{{item.date_created | date:'EEE, MMMM dd, y hh:mm:ss a (Z)'}}</span>
-          </span>
-        </div>
+            <span class="p6">Created:</span>
+            <span class="p5 tooltip tooltip-md tooltip-bottom-left">{{item.date_created | dateFormat | relativeDate}}
+                <span class="tooltip-content">
+                  {{item.date_created | dateFormat | date:'EEE, MMMM dd, y hh:mm:ss a (Z)'}}</span>
+            </span>
+          </div>
 
-        <div class="card-footer">
-          <div class="btn-group btn-link btn-icon-link">
-            <button class="btn">
-              <clr-icon style="color: #390256" shape="edit"
-                        (click)="selectBucketListItem(item); editbucketlistitem = true"></clr-icon>
-              <span class="clr-icon-title">Edit</span>
-            </button>
-            <button class="btn">
-              <clr-icon shape="remove" class="is-red"
-                        (click)="selectBucketListItem(item); deletebucketlistitem = true"></clr-icon>
-              <span class="clr-icon-title">Delete</span>
-            </button>
+          <div class="card-footer">
+            <div class="btn-group btn-link btn-icon-link">
+              <button class="btn">
+                <clr-icon style="color: #390256" shape="edit"
+                          (click)="selectBucketListItem(item); editbucketlistitem = true"></clr-icon>
+                <span class="clr-icon-title">Edit</span>
+              </button>
+              <button class="btn">
+                <clr-icon shape="remove" class="is-red"
+                          (click)="selectBucketListItem(item); deletebucketlistitem = true"></clr-icon>
+                <span class="clr-icon-title">Delete</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <clr-modal [(clrModalOpen)]="addbucketlistitem">
+    <h3 class="modal-title">Add new Item</h3>
+    <div class="modal-body">
+      <form #addItem="ngForm">
+        <section class="form-block">
+          <div class="form-group">
+            <label for="name">New item name</label>
+            <input type="text" id="name" placeholder="Enter value here" size="45" required
+                   [(ngModel)]="name" name="name" (keyup.enter)="addBucketListItem(); addbucketlistitem = false">
+          </div>
+          <div class="form-group">
+            <label for="done">Have you done this item?</label>
+            <div class="select">
+              <select id="done"
+                      [(ngModel)]="done" name="done">
+                <option [ngValue]="true">Done</option>
+                <option [ngValue]="false">Not done</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" rows="3" [(ngModel)]="description" name="description"></textarea>
+          </div>
+        </section>
+        <div class="modal-footer">
+          <button type="button" class="btn" (click)="addbucketlistitem = false">Cancel</button>
+          <button [clrLoading]="submitLoading" type="submit" class="btn btn-primary"
+                  (click)="addBucketListItem(); addbucketlistitem = false">Add
+          </button>
+        </div>
+      </form>
+    </div>
+  </clr-modal>
+
+  <clr-modal *ngIf="selectedBucketListItem" [(clrModalOpen)]="editbucketlistitem">
+    <h3 class="modal-title">Edit '<strong>{{selectedBucketListItem.name}}</strong>'</h3>
+    <div class="modal-body">
+      <form #editItem="ngForm">
+        <section class="form-block">
+          <div class="form-group">
+            <label for="newname">Edit item name</label>
+            <input type="text" id="newname" placeholder="Enter value here" size="45" required
+                   [(ngModel)]="selectedBucketListItem.name" name="name"
+                   (keyup.enter)="editBucketListItem(); editbucketlistitem = false">
+          </div>
+          <div class="form-group">
+            <label for="newdone">Update done status</label>
+            <div class="select">
+              <select id="newdone" [(ngModel)]="selectedBucketListItem.done" name="done">
+                <option [ngValue]="true">Done</option>
+                <option [ngValue]="false">Not done</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="newdescription">Edit Description</label>
+            <textarea id="newdescription" rows="3" [(ngModel)]="selectedBucketListItem.description" name="description"
+                      (keyup.enter)="editBucketListItem(); editbucketlistitem = false">
+            </textarea>
+          </div>
+        </section>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn" (click)="editbucketlistitem = false">Cancel</button>
+      <button type="button" class="btn btn-primary"
+              (click)="editBucketListItem(); editbucketlistitem = false">Save
+      </button>
+    </div>
+  </clr-modal>
+
+  <clr-modal *ngIf="selectedBucketListItem" [(clrModalOpen)]="deletebucketlistitem">
+    <h3 class="modal-title">Delete '<strong>{{selectedBucketListItem.name}}</strong>'?</h3>
+    <div class="modal-body">
+      <p>This action cannot be undone</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn" (click)="deletebucketlistitem = false">Cancel</button>
+      <button type="button" class="btn btn-danger"
+              (click)="deleteBucketListItem(selectedBucketListItem); deletebucketlistitem = false">Delete</button>
+    </div>
+  </clr-modal>
 </div>
-
-<clr-modal [(clrModalOpen)]="addbucketlistitem">
-  <h3 class="modal-title">Add new Item</h3>
-  <div class="modal-body">
-    <form #addItem="ngForm">
-      <section class="form-block">
-        <div class="form-group">
-          <label for="name">New item name</label>
-          <input type="text" id="name" placeholder="Enter value here" size="45" required
-                 [(ngModel)]="name" name="name">
-        </div>
-        <div class="form-group">
-          <label for="done">Have you done this item?</label>
-          <div class="select">
-            <select id="done"
-                    [(ngModel)]="done" name="done">
-              <option [ngValue]="true">Done</option>
-              <option [ngValue]="false">Not done</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="description">Description</label>
-          <textarea id="description" rows="3" [(ngModel)]="description" name="description"></textarea>
-        </div>
-      </section>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn" (click)="addbucketlistitem = false">Cancel</button>
-    <button [clrLoading]="submitLoading" type="submit" class="btn btn-primary"
-            (click)="addBucketListItem(name, description, done); addItem.reset(); addbucketlistitem = false">Add
-    </button>
-  </div>
-</clr-modal>
-
-<clr-modal *ngIf="selectedBucketListItem" [(clrModalOpen)]="editbucketlistitem">
-  <h3 class="modal-title">Edit '<strong>{{selectedBucketListItem.name}}</strong>'</h3>
-  <div class="modal-body">
-    <form #editItem="ngForm">
-      <section class="form-block">
-        <div class="form-group">
-          <label for="newname">Edit item name</label>
-          <input type="text" id="newname" placeholder="Enter value here" size="45" required
-                 [(ngModel)]="selectedBucketListItem.name" name="name">
-        </div>
-        <div class="form-group">
-          <label for="newdone">Update done status</label>
-          <div class="select">
-            <select id="newdone" [(ngModel)]="selectedBucketListItem.done" name="done">
-              <option [ngValue]="true">Done</option>
-              <option [ngValue]="false">Not done</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="newdescription">Edit Description</label>
-          <textarea id="newdescription" rows="3" [(ngModel)]="selectedBucketListItem.description" name="description">
-          </textarea>
-        </div>
-      </section>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn" (click)="editbucketlistitem = false">Cancel</button>
-    <button type="button" class="btn btn-primary"
-            (click)="editBucketListItem(selectedBucketListItem.name, selectedBucketListItem.description,
-             selectedBucketListItem.done); editbucketlistitem = false">Save
-    </button>
-  </div>
-</clr-modal>
-
-<clr-modal *ngIf="selectedBucketListItem" [(clrModalOpen)]="deletebucketlistitem">
-  <h3 class="modal-title">Delete '<strong>{{selectedBucketListItem.name}}</strong>'?</h3>
-  <div class="modal-body">
-    <p>This action cannot be undone</p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn" (click)="deletebucketlistitem = false">Cancel</button>
-    <button type="button" class="btn btn-danger"
-            (click)="deleteBucketListItem(selectedBucketListItem); deletebucketlistitem = false">Delete</button>
-  </div>
-</clr-modal>
-
-<h1 *ngIf="errorMessage" class="center-h1">
-  {{errorMessage.status}}
-  {{errorMessage.message}}
-</h1>

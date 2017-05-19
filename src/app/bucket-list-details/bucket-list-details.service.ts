@@ -20,9 +20,8 @@ export class BucketListDetailsService {
   }
 
   // Add a new bucket list item
-  addItemService (addBucketListItemUrl: string, name: string, description: string, done: boolean): Observable<any> {
+  addItemService (addBucketListItemUrl: string, name: string, description?: string, done?: boolean): Observable<any> {
     let payload = JSON.stringify({ "name": name, "description": description, "done": done }); // Stringify payload
-
     return this.http.post(addBucketListItemUrl, payload, {headers: this.getHeaders()})
       .map((response:Response) => response.json());
   }

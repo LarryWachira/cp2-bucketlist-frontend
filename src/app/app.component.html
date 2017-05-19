@@ -7,32 +7,35 @@
         <span class="title">Chum</span>
       </a>
     </div>
-    <div *ngIf="currentUser" class="header-nav">
-      <a routerLink="/welcome" routerLinkActive="active" class="nav-link nav-text">Dashboard</a>
+    <div *ngIf="isLoggedIn" class="header-nav">
+      <a routerLink="/dashboard" routerLinkActive="active" class="nav-link nav-text">Dashboard</a>
       <a routerLink="/bucketlists" routerLinkActive="active" class="nav-link nav-text">Bucket Lists</a>
     </div>
-    <form *ngIf="currentUser" class="search">
+    <form #searchForm="ngForm" *ngIf="isLoggedIn" class="search">
       <label for="search_bucketlists">
-        <input id="search_bucketlists" type="text" placeholder="Search for bucket list...">
+        <input id="search_bucketlists" (keyup)="search(searchterm)" (keyup.enter)="search(searchterm)"
+               routerLink="bucketlists/search" routerLinkActive="active"
+               type="text" placeholder="Search for bucket list..."
+               [(ngModel)]="searchterm" name="searchterm">
       </label>
     </form>
     <div class="header-actions">
-      <a *ngIf="!currentUser" routerLink="/login" routerLinkActive="active" class="nav-link nav-text">
+      <a *ngIf="!isLoggedIn" routerLink="/login" routerLinkActive="active" class="nav-link nav-text">
         Log In
       </a>
-      <a *ngIf="!currentUser" routerLink="/register" routerLinkActive="active" class="nav-link nav-text">
+      <a *ngIf="!isLoggedIn" routerLink="/register" routerLinkActive="active" class="nav-link nav-text">
         Register
       </a>
-      <span *ngIf="currentUser" class="nav-link nav-text">
+      <span *ngIf="isLoggedIn" class="nav-link nav-text">
         Hi {{currentUser.username}}!
       </span>
-      <clr-dropdown *ngIf="currentUser" clrMenuPosition="bottom-right">
+      <clr-dropdown *ngIf="isLoggedIn" clrMenuPosition="bottom-right">
         <button class="nav-icon" clrDropdownToggle>
           <clr-icon shape="user"></clr-icon>
           <clr-icon shape="caret down"></clr-icon>
         </button>
         <clr-dropdown-menu>
-          <a href="#" clrDropdownItem>About</a>
+          <a routerLink="/welcome" clrDropdownItem>About</a>
           <a (click)="logOut()" clrDropdownItem>Log out</a>
         </clr-dropdown-menu>
       </clr-dropdown>

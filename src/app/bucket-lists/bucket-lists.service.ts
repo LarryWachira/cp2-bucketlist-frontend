@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
-// import 'rxjs/add/operator/catch';
-// import 'rxjs/add/observable/throw';
 
 import { environment } from '../../environments/environment';
 import { BucketLists } from './bucket-lists';
@@ -15,14 +13,12 @@ export class BucketListsService {
   private apiUrl: string = environment.apiUrl;
   addBucketListUrl: string = this.apiUrl + '/bucketlists';
   body: Object;
-  // bucketLists : BucketLists;
-  // bucketlist : BucketList;
 
   constructor(private http: Http) { }
 
-  getAllBucketListsService(): Observable<BucketLists> {
+  getAllBucketListsService(q: string = '', page: number = 1, limit: number = 20): Observable<BucketLists> {
     return this.http
-      .get(`${this.apiUrl}/bucketlists`, {headers: this.getHeaders()})
+      .get(`${this.apiUrl}/bucketlists/?q=${q}&page=${page}&limit=${limit}`, {headers: this.getHeaders()})
       .map((response: Response) => response.json());
   }
 

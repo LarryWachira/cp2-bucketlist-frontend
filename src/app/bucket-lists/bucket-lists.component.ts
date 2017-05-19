@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { BucketListsService } from "./bucket-lists.service";
 import { BucketList } from "../bucket-list-details/bucket-list-details";
+import { BucketLists } from "./bucket-lists";
 
 
 @Component({
@@ -14,12 +15,13 @@ export class BucketListsComponent implements OnInit {
   bucketLists : BucketList[] = [];
   selectedBucketList: BucketList;
   message: string;
-  // itemsNumber: number;
   responseStatus: number;
-  // pages: number;
   submitLoading: boolean;
   errorMessage: any;
   isLoading: boolean = true;
+  bucketListName: string;
+  bucketListsData: BucketLists;
+  closeModal: boolean = false;
 
   constructor(private _bucketListService: BucketListsService) {
   }
@@ -33,32 +35,32 @@ export class BucketListsComponent implements OnInit {
       .getAllBucketListsService()
       .subscribe(
         data => {
+          this.bucketListsData = data;
           this.bucketLists = data.bucketlists;
         },
-        error => this.errorMessage = error.json());
-    this.isLoading = false;
+        error => this.errorMessage = error.json(),
+        () => this.isLoading = false);
   }
 
-  addBucketList(name: string): void {
+  addBucketList(): void {
     this.submitLoading = true;
-    console.log(name);
     this._bucketListService
-      .addBucketListService(name)
+      .addBucketListService(this.bucketListName)
       .subscribe(
         data => {
           this.message = data.message;
+          this.bucketListName = '';
           this.getBucketLists();
         },
         error => this.errorMessage = error.json());
     this.submitLoading = false;
-    this.isLoading = false;
   }
 
-  updateBucketList(bucketlist: BucketList, name: string): void {
+  updateBucketList(): void {
     this.submitLoading = true;
-    console.log(name);
+
     this._bucketListService
-      .updateBucketListService(bucketlist, name)
+      .updateBucketListService(this.selectedBucketList, this.selectedBucketList.name)
       .subscribe(
         data => {
           this.message = data.message;
@@ -72,7 +74,7 @@ export class BucketListsComponent implements OnInit {
 
   deleteBucketList(bucketlist: BucketList): void {
     this.submitLoading = true;
-    console.log(bucketlist);
+
     this._bucketListService
       .deleteBucketListService(bucketlist)
       .subscribe(

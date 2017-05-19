@@ -1,28 +1,16 @@
 <div class="background-vignette inner-shadow">
   <span *ngIf="isLoading" class="spinner spinner-lg center-h1"></span>
-  <br>
-  <div class="container">
-    <button class="btn shadow" (click)="addbucketlist = true">
-    Add new bucket list
-    </button>
-    <br>
-    <div class='wrapper text-center'>
-      <div class="btn-group btn-link text-center" style="text-align: center">
-        <button class="btn pg disabled">« Previous</button>
-        <button class="btn active">1</button>
-        <button class="btn pgn">2</button>
-        <button class="btn pgn">3</button>
-        <button class="btn pgn">4</button>
-        <button class="btn ellipsis">...</button>
-        <button class="btn pgn">12</button>
-        <button class="btn pgn">13</button>
-        <button class="btn pgn">Next »</button>
-      </div>
-    </div>
 
-    <div *ngIf="bucketLists && !isLoading" class="row">
-      <h1 *ngIf="!bucketLists.length" class="center-h1">No bucketlists have been added</h1>
-      <div *ngFor="let bucketlist of bucketLists" class="col-lg-4 col-md-6 col-sm-12 col-xs-12"
+  <div class="container">
+    <h2 *ngIf="results.bucketlists.length" class="text-effect">Search Results
+      <span *ngIf="searchTerm"> for <em>{{"\"" + searchTerm + "\""}}</em></span>
+    </h2>
+    <h1 *ngIf="!results.bucketlists.length && searchTerm" class="center-h1">No Results for
+      <em> {{"\"" + searchTerm + "\""}}</em>
+    </h1>
+    <h1 *ngIf="!searchTerm" class="center-h1">Type in the Search Field to Search </h1>
+    <div *ngIf="results.bucketlists.length && !isLoading" class="row">
+      <div *ngFor="let bucketlist of bucketLists" class="col-lg-3 col-md-4 col-sm-6 col-xs-6"
            (click)="selectBucketList(bucketlist)">
         <div class="fadeIn card shadow">
           <div class="card-block">
@@ -69,28 +57,6 @@
     </div>
   </div>
 
-  <clr-modal [(clrModalOpen)]="addbucketlist">
-    <h3 class="modal-title">Add new Bucket List</h3>
-    <div class="modal-body">
-      <form #addList="ngForm">
-        <section class="form-block">
-          <div class="form-group">
-            <label>Name of Bucket List</label>
-            <input type="text" id="bucketlist_name" placeholder="Bucket list name..." size="50"
-                   required [(ngModel)]="bucketListName" name="bucketlistname"
-                   (keyup.enter)="addBucketList(); addbucketlist = false">
-          </div>
-        </section>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn" (click)="addbucketlist = false">Cancel</button>
-      <button [clrLoading]="submitLoading" type="submit" class="btn btn-primary"
-              (click)="addBucketList(); addbucketlist = false" >Add
-      </button>
-    </div>
-  </clr-modal>
-
   <clr-modal *ngIf="selectedBucketList" [(clrModalOpen)]="editbucketlist">
     <h3 class="modal-title">Edit '<strong>{{selectedBucketList.name}}</strong>'</h3>
     <div class="modal-body">
@@ -99,8 +65,7 @@
           <div class="form-group">
             <label>Edit Name</label>
             <input type="text" id="new_bucketlist_name" placeholder="New Bucket list name..." size="40"
-                   required [(ngModel)]="selectedBucketList.name" name="name"
-                   (keyup.enter)="updateBucketList(); editbucketlist = false">
+                   required [(ngModel)]="selectedBucketList.name" name="name">
           </div>
         </section>
       </form>
@@ -108,7 +73,8 @@
     <div class="modal-footer">
       <button type="button" class="btn" (click)="editbucketlist = false">Cancel</button>
       <button type="button" class="btn btn-primary"
-              (click)="updateBucketList(); editbucketlist = false">Save
+              (click)="updateBucketList(selectedBucketList, selectedBucketList.name);
+              editbucketlist = false">Save
       </button>
     </div>
   </clr-modal>
