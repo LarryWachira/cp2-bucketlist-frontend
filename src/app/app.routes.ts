@@ -7,6 +7,7 @@ import { LoginComponent } from "./authorization/login.component";
 import { RegisterComponent } from "./authorization/register.component";
 import { AuthorizationGuard } from "./authorization/authorization.guard";
 import { SearchComponent } from "./search/search.component";
+import {DashboardComponent} from "app/dashboard/dashboard.component";
 
 
 // Map routes to components
@@ -25,6 +26,12 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent
+  },
+  // map '/dashboard' to the dashboard component
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthorizationGuard]
   },
   // map '/bucketLists' to the bucket list component
   {
