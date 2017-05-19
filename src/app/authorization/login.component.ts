@@ -7,7 +7,7 @@ import { AppGlobals } from "../app.utils";
 @Component({
   selector: 'app-authorization',
   templateUrl: './login.component.html',
-  styleUrls: ['./authorization.component.css']
+  styleUrls: ['./login.component.css']
 })
 
 
