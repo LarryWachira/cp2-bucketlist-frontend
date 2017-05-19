@@ -39,7 +39,7 @@ export class RelativeDatePipe implements PipeTransform {
     }
     return {
       interval: 0,
-      epoch: 'seconds'
+      epoch: 'second'
     };
   };
 
@@ -84,6 +84,7 @@ export class DateFormatPipe implements PipeTransform {
 
 /*
  * Set and bind logged in status app-wide
+ * Communicate search term from app component to search component
  */
 
 @Injectable()
