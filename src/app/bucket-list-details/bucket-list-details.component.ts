@@ -15,7 +15,7 @@ import { environment } from "../../environments/environment";
 
 export class BucketListDetailsComponent implements OnInit {
   private apiUrl: string = environment.apiUrl;
-  bucketlist: string;
+  currentBucketList: string;
   id: number;
   body: Object;
   items: BucketListItem[] = [];
@@ -27,6 +27,9 @@ export class BucketListDetailsComponent implements OnInit {
   submitLoading: boolean;
   responseStatus: string;
   message: string;
+  name: string;
+  description: string;
+  done: boolean;
 
   constructor(private _bucketListDetailsService: BucketListDetailsService, private route: ActivatedRoute) {
   }
@@ -45,34 +48,39 @@ export class BucketListDetailsComponent implements OnInit {
       .getBucketListService(this.bucketListUrl)
       .subscribe(
         data => {
-          this.bucketlist = data.name;
+          this.currentBucketList = data.name;
           this.items = data.items;
         },
         error => this.errorMessage = error.json(),
         () => this.isLoading = false );
   }
 
-  addBucketListItem(name: string, description: string, done: boolean) {
+  addBucketListItem() {
     this.submitLoading = true;
     this.route.params.subscribe((params: Params) => {
       this.id = params['id'];
     });
     this.addBucketListItemUrl = this.apiUrl + `/bucketlists/${this.id}/items`;
     this._bucketListDetailsService
-      .addItemService(this.addBucketListItemUrl, name, description, done)
+      .addItemService(this.addBucketListItemUrl, this.name, this.description, this.done)
       .subscribe(
         data => {
           this.message = data.message;
           this.submitLoading = false;
+          this.done = false;
+          this.name = '';
+          this.description = '';
           this.getBucketList();
         },
-        error => this.errorMessage = error.json());
+        error => {this.errorMessage = error.json();
+        console.log(this.errorMessage)});
     this.submitLoading = false;
   }
 
-  editBucketListItem(name: string, description: string, done: boolean) {
+  editBucketListItem() {
     this.submitLoading = true;
-    this.body = {"name": name, "description": description, "done": done};
+    this.body = {"name": this.selectedBucketListItem.name, "description": this.selectedBucketListItem.description,
+      "done": this.selectedBucketListItem.done};
 
     this._bucketListDetailsService
       .updateItemService(this.selectedBucketListItem, this.body)
