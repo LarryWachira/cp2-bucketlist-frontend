@@ -1,0 +1,24 @@
+
+.pgn {
+  color: #000;
+  min-width: 40px;
+  max-width: 100px;
+}
+
+.pgn:hover {
+  background: #e6e6e6;
+}
+
+.active, .active:hover {
+  background: #390256;
+  color: #fefefe;
+  cursor: default;
+}
+
+.disabled:hover {
+  background: white;
+}
+
+.ellipsis {
+  color: #000;
+}

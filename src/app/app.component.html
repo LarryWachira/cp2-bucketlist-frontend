@@ -1,3 +1,49 @@
-<h1>
-  {{title}}
-</h1>
+
+<div class="main-container">
+  <header class="header header-3 shadow">
+    <div class="branding">
+      <a routerLink="/welcome">
+        <clr-icon shape="home" class="is-inverse is-solid"></clr-icon>
+        <span class="title">Chum</span>
+      </a>
+    </div>
+    <div *ngIf="isLoggedIn" class="header-nav">
+      <a routerLink="/dashboard" routerLinkActive="active" class="nav-link nav-text">Dashboard</a>
+      <a routerLink="/bucketlists" routerLinkActive="active" class="nav-link nav-text">Bucket Lists</a>
+    </div>
+    <form #searchForm="ngForm" *ngIf="isLoggedIn" class="search">
+      <label for="search_bucketlists">
+        <input id="search_bucketlists" (keyup)="search(searchterm)" (keyup.enter)="search(searchterm)"
+               routerLink="bucketlists/search" routerLinkActive="active"
+               type="text" placeholder="Search for bucket list..."
+               [(ngModel)]="searchterm" name="searchterm">
+      </label>
+    </form>
+    <div class="header-actions">
+      <a *ngIf="!isLoggedIn" routerLink="/login" routerLinkActive="active" class="nav-link nav-text">
+        Log In
+      </a>
+      <a *ngIf="!isLoggedIn" routerLink="/register" routerLinkActive="active" class="nav-link nav-text">
+        Register
+      </a>
+      <span *ngIf="isLoggedIn" class="nav-link nav-text">
+        Hi {{currentUser.username}}!
+      </span>
+      <clr-dropdown *ngIf="isLoggedIn" clrMenuPosition="bottom-right">
+        <button class="nav-icon" clrDropdownToggle>
+          <clr-icon shape="user"></clr-icon>
+          <clr-icon shape="caret down"></clr-icon>
+        </button>
+        <clr-dropdown-menu>
+          <a routerLink="/welcome" clrDropdownItem>About</a>
+          <a (click)="logOut()" clrDropdownItem>Log out</a>
+        </clr-dropdown-menu>
+      </clr-dropdown>
+    </div>
+  </header>
+  <div class="content-container">
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

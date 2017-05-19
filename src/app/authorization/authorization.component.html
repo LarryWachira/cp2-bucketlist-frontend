@@ -1,0 +1,38 @@
+
+<span *ngIf="isLoading && !errorMessage" class="spinner spinner-lg center-h1"></span>
+
+<div *ngIf="!isLoading && !errorMessage" class="center col-lg-8 col-md-12 col-sm-12 col-xs-12">
+  <div class="card shadow">
+    <div class="card-block">
+      <div class="card-header title">
+        Login
+      </div>
+      <form #loginForm="ngForm">
+        <section style="text-align: center" class="form-block">
+          <div class="form-group">
+            <label for="name">Username</label>
+            <input type="text" id="name" placeholder="Enter username" size="50" required
+                   [(ngModel)]="username" name="username">
+          </div>
+          <br>
+          <div class="form-group">
+            <label for="name">Password</label>
+            <input type="password" id="password" placeholder="Enter password" size="50" required
+                   [(ngModel)]="password" name="password">
+          </div>
+        </section>
+      </form>
+      <hr class="divider">
+      <div style="text-align: center" class="card-footer">
+        <button (click)="logIn(username, password)" type="submit" class="btn btn-primary">LOG IN</button>
+        <a routerLink="/register" class="signup">Sign up for an account</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<h1 *ngIf="errorMessage" class="center-h1">
+  {{errorMessage.status}}
+  {{errorMessage.message}}
+</h1>
