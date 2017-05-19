@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit {
       .getAllBucketListsService()
       .subscribe(
         data => {
-          this.recentBucketLists = data.bucketlists.slice(0,4);
+          this.recentBucketLists = data.bucketlists.slice(0,3);
         },
         error => this.errorMessage = error.json(),
         () => this.isLoading = false);
