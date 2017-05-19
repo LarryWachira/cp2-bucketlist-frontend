@@ -38,7 +38,7 @@ import { SearchComponent } from './search/search.component';
     HttpModule,
     routing,
     BrowserAnimationsModule,
-    ClarityModule.forRoot(),
+    ClarityModule.forRoot()
   ],
   providers: [AuthorizationGuard],
   bootstrap: [AppComponent],
