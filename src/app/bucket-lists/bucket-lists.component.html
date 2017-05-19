@@ -1,9 +1,25 @@
-<span *ngIf="isLoading" class="spinner spinner-lg center-h1"></span>
 
+<span *ngIf="isLoading" class="spinner spinner-lg center-h1"></span>
+<br>
 <div class="container">
   <button class="btn shadow" (click)="addbucketlist = true">
   Add new bucket list
   </button>
+  <br>
+  <div class='wrapper text-center'>
+    <div class="btn-group btn-link text-center" style="text-align: center">
+      <button class="btn pg disabled">« Previous</button>
+      <button class="btn active">1</button>
+      <button class="btn pgn">2</button>
+      <button class="btn pgn">3</button>
+      <button class="btn pgn">4</button>
+      <button class="btn ellipsis">...</button>
+      <button class="btn pgn">12</button>
+      <button class="btn pgn">13</button>
+      <button class="btn pgn">Next »</button>
+    </div>
+  </div>
+
   <div *ngIf="bucketLists && !isLoading" class="row">
     <h1 *ngIf="!bucketLists.length" class="center-h1">No bucketlists have been added</h1>
     <div *ngFor="let bucketlist of bucketLists" class="col-lg-4 col-md-6 col-sm-12 col-xs-12"
@@ -61,7 +77,8 @@
         <div class="form-group">
           <label>Name of Bucket List</label>
           <input type="text" id="bucketlist_name" placeholder="Bucket list name..." size="50"
-                 required [(ngModel)]="bucketlistname" name="bucketlistname">
+                 required [(ngModel)]="bucketListName" name="bucketlistname"
+                 (keyup.enter)="addBucketList(); addbucketlist = false">
         </div>
       </section>
     </form>
@@ -69,7 +86,7 @@
   <div class="modal-footer">
     <button type="button" class="btn" (click)="addbucketlist = false">Cancel</button>
     <button [clrLoading]="submitLoading" type="submit" class="btn btn-primary"
-            (click)="addBucketList(bucketlistname); bucketlistname = null; addbucketlist = false" >Add
+            (click)="addBucketList(); addbucketlist = false" >Add
     </button>
   </div>
 </clr-modal>
@@ -82,7 +99,8 @@
         <div class="form-group">
           <label>Edit Name</label>
           <input type="text" id="new_bucketlist_name" placeholder="New Bucket list name..." size="40"
-                 required [(ngModel)]="selectedBucketList.name" name="name">
+                 required [(ngModel)]="selectedBucketList.name" name="name"
+                 (keyup.enter)="updateBucketList(); editbucketlist = false">
         </div>
       </section>
     </form>
@@ -90,8 +108,7 @@
   <div class="modal-footer">
     <button type="button" class="btn" (click)="editbucketlist = false">Cancel</button>
     <button type="button" class="btn btn-primary"
-            (click)="updateBucketList(selectedBucketList, selectedBucketList.name);
-            editbucketlist = false">Save
+            (click)="updateBucketList(); editbucketlist = false">Save
     </button>
   </div>
 </clr-modal>
@@ -107,5 +124,3 @@
             (click)="deleteBucketList(selectedBucketList); deletebucketlist = false">Delete</button>
   </div>
 </clr-modal>
-
-<!--<div *ngIf="errorMessage" class="center-h1">{{errorMessage.status}} {{errorMessage.error}}</div>-->
