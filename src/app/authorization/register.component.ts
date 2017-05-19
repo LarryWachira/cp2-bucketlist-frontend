@@ -7,7 +7,7 @@ import { UserRegister } from "./user-registration-details";
 @Component({
   selector: 'app-authorization',
   templateUrl: './register.component.html',
-  styleUrls: ['./authorization.component.css']
+  styleUrls: ['./login.component.css']
 })
 
 
