@@ -1,14 +1,15 @@
-<span *ngIf="isLoading && ! errorMessage" class="spinner spinner-lg center-h1"></span>
+<span *ngIf="isLoading" class="spinner spinner-lg center-h1"></span>
 
-<div *ngIf="!errorMessage" class="container">
-  <h2 class="text-effect">{{bucketlist}}</h2>
+<div class="container">
+  <br>
+  <h2 class="text-effect col-lg-12">{{currentBucketList}}</h2>
   <button class="btn shadow" (click)="addbucketlistitem = true">
     <clr-icon shape="add"></clr-icon>
     Add new bucket list item
   </button>
 </div>
 
-<div *ngIf="!errorMessage && items && !isLoading" class="container">
+<div *ngIf="items && !isLoading" class="container">
   <h1 *ngIf="!items.length" class="center-h1">Empty</h1>
 
   <div class="row">
@@ -67,7 +68,7 @@
         <div class="form-group">
           <label for="name">New item name</label>
           <input type="text" id="name" placeholder="Enter value here" size="45" required
-                 [(ngModel)]="name" name="name">
+                 [(ngModel)]="name" name="name" (keyup.enter)="addBucketListItem(); addbucketlistitem = false">
         </div>
         <div class="form-group">
           <label for="done">Have you done this item?</label>
@@ -84,13 +85,13 @@
           <textarea id="description" rows="3" [(ngModel)]="description" name="description"></textarea>
         </div>
       </section>
+      <div class="modal-footer">
+        <button type="button" class="btn" (click)="addbucketlistitem = false">Cancel</button>
+        <button [clrLoading]="submitLoading" type="submit" class="btn btn-primary"
+                (click)="addBucketListItem(); addbucketlistitem = false">Add
+        </button>
+      </div>
     </form>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn" (click)="addbucketlistitem = false">Cancel</button>
-    <button [clrLoading]="submitLoading" type="submit" class="btn btn-primary"
-            (click)="addBucketListItem(name, description, done); addItem.reset(); addbucketlistitem = false">Add
-    </button>
   </div>
 </clr-modal>
 
@@ -102,7 +103,8 @@
         <div class="form-group">
           <label for="newname">Edit item name</label>
           <input type="text" id="newname" placeholder="Enter value here" size="45" required
-                 [(ngModel)]="selectedBucketListItem.name" name="name">
+                 [(ngModel)]="selectedBucketListItem.name" name="name"
+                 (keyup.enter)="editBucketListItem(); editbucketlistitem = false">
         </div>
         <div class="form-group">
           <label for="newdone">Update done status</label>
@@ -115,7 +117,8 @@
         </div>
         <div class="form-group">
           <label for="newdescription">Edit Description</label>
-          <textarea id="newdescription" rows="3" [(ngModel)]="selectedBucketListItem.description" name="description">
+          <textarea id="newdescription" rows="3" [(ngModel)]="selectedBucketListItem.description" name="description"
+                    (keyup.enter)="editBucketListItem(); editbucketlistitem = false">
           </textarea>
         </div>
       </section>
@@ -124,8 +127,7 @@
   <div class="modal-footer">
     <button type="button" class="btn" (click)="editbucketlistitem = false">Cancel</button>
     <button type="button" class="btn btn-primary"
-            (click)="editBucketListItem(selectedBucketListItem.name, selectedBucketListItem.description,
-             selectedBucketListItem.done); editbucketlistitem = false">Save
+            (click)="editBucketListItem(); editbucketlistitem = false">Save
     </button>
   </div>
 </clr-modal>
@@ -141,8 +143,3 @@
             (click)="deleteBucketListItem(selectedBucketListItem); deletebucketlistitem = false">Delete</button>
   </div>
 </clr-modal>
-
-<h1 *ngIf="errorMessage" class="center-h1">
-  {{errorMessage.status}}
-  {{errorMessage.message}}
-</h1>
