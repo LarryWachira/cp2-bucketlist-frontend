@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 Chum is a bucket list app built with a flask backend and Angular 2 frontend. 
 
 ### Obligatory screenshots:
-_______
+#
 #### _Landing page_
 ![alt text](http://i.imgur.com/kDNBzMH.png "Landing page")
 _______
