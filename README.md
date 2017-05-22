@@ -1,6 +1,7 @@
 # Chum Frontend
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.2.
+
 Chum is a bucket list app built with a flask backend and Angular 2 frontend. 
 
 ### Obligatory screenshots:
@@ -44,4 +45,4 @@ _NOTE: Chum's front end needs to be connected to a valid Chum [API server](https
 - Add the ability for users to add custom bucket list card images
 - Add more dashboard content statistics
 - Add tests
-- reduce code repetitiion
+- reduce code repetition

@@ -15,7 +15,7 @@
         <button *ngIf="!results.prev_url" class="btn pg disabled">« Previous</button>
         <button *ngIf="results.prev_url" (click)="cycleSearchPages(results.prev_url)"
                 class="btn pgn">« Previous</button>
-        <button class="btn active">{{results.page}}</button>
+        <button class="btn active">{{results.page}}/{{results.pages}}</button>
         <!--<button class="btn pgn">2</button>-->
         <!--<button class="btn pgn">3</button>-->
         <!--<button class="btn pgn">4</button>-->
@@ -108,7 +108,7 @@
       <button *ngIf="!results.prev_url" class="btn pg disabled">« Previous</button>
       <button *ngIf="results.prev_url" (click)="cycleSearchPages(results.prev_url)"
               class="btn pgn">« Previous</button>
-      <button class="btn active">{{results.page}}</button>
+      <button class="btn active">{{results.page}}/{{results.pages}}</button>
       <!--<button class="btn pgn">2</button>-->
       <!--<button class="btn pgn">3</button>-->
       <!--<button class="btn pgn">4</button>-->
