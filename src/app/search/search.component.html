@@ -8,6 +8,52 @@
   <h1 *ngIf="!results.bucketlists.length && searchTerm" class="center-h1">No Results for
     <em> {{"\"" + searchTerm + "\""}}</em>
   </h1>
+
+  <div *ngIf="results.bucketlists.length && !isLoading" class="row">
+    <div id="page-switcher" *ngIf="bucketLists.length" style="text-align: center" class="col-lg-4">
+      <div class="btn-group btn-link">
+        <button *ngIf="!results.prev_url" class="btn pg disabled">« Previous</button>
+        <button *ngIf="results.prev_url" (click)="cycleSearchPages(results.prev_url)"
+                class="btn pgn">« Previous</button>
+        <button class="btn active">{{results.page}}</button>
+        <!--<button class="btn pgn">2</button>-->
+        <!--<button class="btn pgn">3</button>-->
+        <!--<button class="btn pgn">4</button>-->
+        <!--<button class="btn ellipsis">...</button>-->
+        <!--<button class="btn pgn">12</button>-->
+        <!--<button class="btn pgn">13</button>-->
+        <button *ngIf="!results.next_url" class="btn pgn disabled">Next »</button>
+        <button *ngIf="results.next_url" (click)="cycleSearchPages(results.next_url)"
+                class="btn pgn">Next »</button>
+      </div>
+    </div>
+
+    <div id="pagination-settings" *ngIf="bucketLists.length" class="col-lg-3">
+      <input [(ngModel)]="results.limit" (keyup.enter)="paginateSearchResults()" type="number">
+      <clr-dropdown clrMenuPosition="bottom-right">
+        <button id="itemsdropdown" class="btn shadow" style="color: #390256" clrDropdownToggle>
+          Items per page
+          <clr-icon shape="caret down"></clr-icon>
+        </button>
+        <clr-dropdown-menu>
+          <a (click)="this.results.limit = 1; paginateSearchResults()" clrDropdownItem>1</a>
+          <a (click)="this.results.limit = 5; paginateSearchResults()" clrDropdownItem>5</a>
+          <a (click)="this.results.limit = 10; paginateSearchResults()" clrDropdownItem>10</a>
+          <a (click)="this.results.limit = 20; paginateSearchResults()" clrDropdownItem>20</a>
+          <a (click)="this.results.limit = 50; paginateSearchResults()" clrDropdownItem>50</a>
+          <a (click)="this.results.limit = 100; paginateSearchResults()" clrDropdownItem>100</a>
+        </clr-dropdown-menu>
+      </clr-dropdown>
+    </div>
+  </div>
+
+  <div class="text-right">
+    <br>
+    <em *ngIf="results.bucketlists.length">
+      Total: {{results.total}} results
+    </em>
+  </div>
+
   <h1 *ngIf="!searchTerm" class="center-h1">Type in the Search Field to Search </h1>
   <div *ngIf="results.bucketlists.length && !isLoading" class="row">
     <div *ngFor="let bucketlist of bucketLists" class="col-lg-3 col-md-4 col-sm-6 col-xs-6"
@@ -55,6 +101,26 @@
       </div>
     </div>
   </div>
+
+  <br>
+  <div *ngIf="results.bucketlists.length" style="text-align: center">
+    <div class="btn-group btn-link">
+      <button *ngIf="!results.prev_url" class="btn pg disabled">« Previous</button>
+      <button *ngIf="results.prev_url" (click)="cycleSearchPages(results.prev_url)"
+              class="btn pgn">« Previous</button>
+      <button class="btn active">{{results.page}}</button>
+      <!--<button class="btn pgn">2</button>-->
+      <!--<button class="btn pgn">3</button>-->
+      <!--<button class="btn pgn">4</button>-->
+      <!--<button class="btn ellipsis">...</button>-->
+      <!--<button class="btn pgn">12</button>-->
+      <!--<button class="btn pgn">13</button>-->
+      <button *ngIf="!results.next_url" class="btn pgn disabled">Next »</button>
+      <button *ngIf="results.next_url" (click)="cycleSearchPages(results.next_url)"
+              class="btn pgn">Next »</button>
+    </div>
+  </div>
+  <br>
 </div>
 
 <clr-modal *ngIf="selectedBucketList" [(clrModalOpen)]="editbucketlist">
