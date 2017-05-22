@@ -79,7 +79,7 @@ export class BucketListDetailsComponent implements OnInit {
 
   editBucketListItem() {
     this.submitLoading = true;
-    this.body = {"name": this.selectedBucketListItem.name, "description": this.selectedBucketListItem.description,
+    this.body = {"name": this.selectedBucketListItem.name, "description": this.selectedBucketListItem.description || '',
       "done": this.selectedBucketListItem.done};
 
     this._bucketListDetailsService

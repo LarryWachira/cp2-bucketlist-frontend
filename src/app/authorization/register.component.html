@@ -1,7 +1,7 @@
 
-<span *ngIf="isLoading && !errorMessage" class="spinner spinner-lg center-h1"></span>
+<span *ngIf="isLoading" class="spinner spinner-lg center-h1"></span>
 
-<div *ngIf="!isLoading && !errorMessage" class="center col-lg-6 col-md-12 col-sm-12 col-xs-12">
+<div *ngIf="!isLoading" class="center col-lg-6 col-md-12 col-sm-12 col-xs-12">
   <div class="card shadow">
     <div class="card-block">
       <div class="card-header title">
@@ -48,8 +48,3 @@
     </div>
   </div>
 </div>
-
-<h1 *ngIf="errorMessage" class="center-h1">
-  {{errorMessage.status}}
-  {{errorMessage.message}}
-</h1>

@@ -67,6 +67,33 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.isLoading = false
   }
 
+  paginateSearchResults(): void {
+    this.isLoading = true;
+    this._bucketListService
+      .getAllBucketListsService(this.searchTerm, this.results.page, this.results.limit)
+      .subscribe(
+        data => {
+          this.results = data;
+          this.bucketLists = data.bucketlists;
+          if(!this.searchTerm){this.searchTerm = null; this.results = emptyBucketLists}
+        },
+        error => {this.errorMessage = error.json();
+          this.results = emptyBucketLists});
+    this.isLoading = false
+  }
+
+  cycleSearchPages(pageUrl: string): void {
+    this._bucketListService
+      .getBucketListsPage(pageUrl)
+      .subscribe(
+        data => {
+          this.results = data;
+          this.bucketLists = data.bucketlists;
+        },
+        error => this.errorMessage = error.json(),
+        () => this.isLoading = false);
+  }
+
   updateBucketList(bucketlist: BucketList, name: string): void {
     this.submitLoading = true;
     this.isLoading = true;
