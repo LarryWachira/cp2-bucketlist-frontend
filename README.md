@@ -19,7 +19,7 @@ _______
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/` to view the result. The app will automatically reload if you change any of the source files.
 
 ## Production server
 Run `ng serve -prod` for a production server.
@@ -27,17 +27,17 @@ Run `ng serve -prod` for a production server.
 ## Installation
 Ensure you have [Node](https://nodejs.org/) installed. You can get it from their website or install via [Homebrew](https://brew.sh) package manager for MacOS.
 Install angular cli first. It's not mandatory but it's recommended in case you'd like to extend the apps capabilities:
-`$npm install -g @angular/cli`
+    `$npm install -g @angular/cli`
 
 Next, install all of the apps dependencies by running:
-`$npm install`
+    `$npm install`
 
 The final step is the easiest :) :
-`$ ng serve -prod`
+    `$ ng serve -prod`
 
 _NOTE: Chum's front end needs to be connected to a valid Chum [API server](https://github.com/LarryWachira/cp2-bucket-list) to work._
 
-###TODO:
+### TODO:
 - Add the ability for users to add custom bucket list card images
 - Add more dashboard content statistics
 - Add tests
