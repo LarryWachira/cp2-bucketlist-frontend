@@ -22,7 +22,7 @@ export class AppComponent implements OnInit, OnDestroy{
   loginStatusSubscription: Subscription;
   currentUserSubscription: Subscription;
 
-  constructor(private router: Router, private appGlobals: AppGlobals) {
+  constructor(private router: Router, private appGlobals: AppGlobals, private authorization: AuthorizationService) {
     this.loginStatusSubscription = this.appGlobals.getLoginStatus().subscribe(value => this.isLoggedIn = value);
     this.currentUserSubscription = this.appGlobals.getCurrentUser().subscribe(user => this.currentUser = user);
   }
@@ -40,6 +40,7 @@ export class AppComponent implements OnInit, OnDestroy{
   }
 
   logOut() {
+    this.authorization.logout();
     this.router.navigate(['/login']);
   }
 
