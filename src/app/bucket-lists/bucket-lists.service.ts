@@ -22,6 +22,12 @@ export class BucketListsService {
       .map((response: Response) => response.json());
   }
 
+  getBucketListsPage(pageUrl: string): Observable<BucketLists> {
+    return this.http
+      .get(pageUrl, {headers: this.getHeaders()})
+      .map((response: Response) => response.json());
+  }
+
   // Add a new bucket list
   addBucketListService(name: string): Observable<any> {
     this.body = { 'name': name };

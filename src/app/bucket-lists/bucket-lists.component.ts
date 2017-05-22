@@ -42,6 +42,30 @@ export class BucketListsComponent implements OnInit {
         () => this.isLoading = false);
   }
 
+  paginateBucketLists(): void {
+    this._bucketListService
+      .getAllBucketListsService('', this.bucketListsData.page, this.bucketListsData.limit)
+      .subscribe(
+        data => {
+          this.bucketListsData = data;
+          this.bucketLists = data.bucketlists;
+        },
+        error => this.errorMessage = error.json(),
+        () => this.isLoading = false);
+  }
+
+  cycleBucketListsPages(pageUrl: string): void {
+    this._bucketListService
+      .getBucketListsPage(pageUrl)
+      .subscribe(
+        data => {
+          this.bucketListsData = data;
+          this.bucketLists = data.bucketlists;
+        },
+        error => this.errorMessage = error.json(),
+        () => this.isLoading = false);
+  }
+
   addBucketList(): void {
     this.submitLoading = true;
     this._bucketListService

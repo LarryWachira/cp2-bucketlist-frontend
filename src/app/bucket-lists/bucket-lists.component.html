@@ -2,22 +2,51 @@
 <span *ngIf="isLoading" class="spinner spinner-lg center-h1"></span>
 <br>
 <div class="container">
-  <button class="btn shadow" (click)="addbucketlist = true">
-  Add new bucket list
-  </button>
-  <br>
-  <div class='wrapper text-center'>
-    <div class="btn-group btn-link text-center" style="text-align: center">
-      <button class="btn pg disabled">« Previous</button>
-      <button class="btn active">1</button>
-      <button class="btn pgn">2</button>
-      <button class="btn pgn">3</button>
-      <button class="btn pgn">4</button>
-      <button class="btn ellipsis">...</button>
-      <button class="btn pgn">12</button>
-      <button class="btn pgn">13</button>
-      <button class="btn pgn">Next »</button>
+  <div class="row">
+    <button id="addnewbutton" class="btn shadow col-lg-3" (click)="addbucketlist = true">
+    Add new bucket list
+    </button>
+    <div id="page-switcher" *ngIf="bucketLists.length" style="text-align: center" class="col-lg-5">
+        <div class="btn-group btn-link">
+          <button *ngIf="!bucketListsData.prev_url" class="btn pg disabled">« Previous</button>
+          <button *ngIf="bucketListsData.prev_url" (click)="cycleBucketListsPages(bucketListsData.prev_url)"
+                  class="btn pgn">« Previous</button>
+          <button class="btn active">{{bucketListsData.page}}</button>
+          <!--<button class="btn pgn">2</button>-->
+          <!--<button class="btn pgn">3</button>-->
+          <!--<button class="btn pgn">4</button>-->
+          <!--<button class="btn ellipsis">...</button>-->
+          <!--<button class="btn pgn">12</button>-->
+          <!--<button class="btn pgn">13</button>-->
+          <button *ngIf="!bucketListsData.next_url" class="btn pgn disabled">Next »</button>
+          <button *ngIf="bucketListsData.next_url" (click)="cycleBucketListsPages(bucketListsData.next_url)"
+                  class="btn pgn">Next »</button>
+        </div>
     </div>
+
+    <div id="pagination-settings" *ngIf="bucketLists.length" class="col-lg-3">
+      <input [(ngModel)]="bucketListsData.limit" (keyup.enter)="paginateBucketLists()" type="number">
+      <clr-dropdown clrMenuPosition="bottom-right">
+        <button id="itemsdropdown" class="btn shadow" style="color: #390256" clrDropdownToggle>
+          Items per page
+          <clr-icon shape="caret down"></clr-icon>
+        </button>
+        <clr-dropdown-menu>
+          <a (click)="this.bucketListsData.limit = 1; paginateBucketLists()" clrDropdownItem>1</a>
+          <a (click)="this.bucketListsData.limit = 5; paginateBucketLists()" clrDropdownItem>5</a>
+          <a (click)="this.bucketListsData.limit = 10; paginateBucketLists()" clrDropdownItem>10</a>
+          <a (click)="this.bucketListsData.limit = 20; paginateBucketLists()" clrDropdownItem>20</a>
+          <a (click)="this.bucketListsData.limit = 50; paginateBucketLists()" clrDropdownItem>50</a>
+          <a (click)="this.bucketListsData.limit = 100; paginateBucketLists()" clrDropdownItem>100</a>
+        </clr-dropdown-menu>
+      </clr-dropdown>
+    </div>
+  </div>
+  <div class="text-right">
+    <br>
+    <em *ngIf="bucketLists.length">
+      Total: {{bucketListsData.total}} bucketlists
+    </em>
   </div>
 
   <div *ngIf="bucketLists && !isLoading" class="row">
@@ -66,6 +95,25 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<br>
+<div id="page-switcher" *ngIf="bucketLists.length" style="text-align: center">
+  <div class="btn-group btn-link">
+    <button *ngIf="!bucketListsData.prev_url" class="btn pg disabled">« Previous</button>
+    <button *ngIf="bucketListsData.prev_url" (click)="cycleBucketListsPages(bucketListsData.prev_url)"
+            class="btn pgn">« Previous</button>
+    <button class="btn active">{{bucketListsData.page}}</button>
+    <!--<button class="btn pgn">2</button>-->
+    <!--<button class="btn pgn">3</button>-->
+    <!--<button class="btn pgn">4</button>-->
+    <!--<button class="btn ellipsis">...</button>-->
+    <!--<button class="btn pgn">12</button>-->
+    <!--<button class="btn pgn">13</button>-->
+    <button *ngIf="!bucketListsData.next_url" class="btn pgn disabled">Next »</button>
+    <button *ngIf="bucketListsData.next_url" (click)="cycleBucketListsPages(bucketListsData.next_url)"
+            class="btn pgn">Next »</button>
   </div>
 </div>
 
