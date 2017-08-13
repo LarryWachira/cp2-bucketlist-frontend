@@ -29,6 +29,7 @@ export class BucketListDetailsComponent implements OnInit {
   message: string;
   name: string;
   description: string;
+  addbucketlistitem: boolean = false;
   done: boolean;
 
   constructor(private _bucketListDetailsService: BucketListDetailsService, private route: ActivatedRoute) {

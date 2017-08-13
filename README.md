@@ -2,7 +2,7 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.2.
 
-Chum is a bucket list app built with a flask backend and Angular 2 frontend. 
+Chum is a bucket list app built with a flask backend and Angular 2 frontend. A live demo can be found [here](https://chum-bucket.herokuapp.com/welcome).
 
 ### Obligatory screenshots:
 #

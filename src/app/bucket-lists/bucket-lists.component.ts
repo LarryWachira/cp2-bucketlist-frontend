@@ -21,6 +21,7 @@ export class BucketListsComponent implements OnInit {
   isLoading: boolean = true;
   bucketListName: string;
   bucketListsData: BucketLists;
+  addbucketlist: boolean = false;
   closeModal: boolean = false;
 
   constructor(private _bucketListService: BucketListsService) {
@@ -37,8 +38,9 @@ export class BucketListsComponent implements OnInit {
         data => {
           this.bucketListsData = data;
           this.bucketLists = data.bucketlists;
+          this.isLoading = false;
         },
-        error => this.errorMessage = error.json(),
+        error => { this.errorMessage = error.json(); this.isLoading = false; },
         () => this.isLoading = false);
   }
 

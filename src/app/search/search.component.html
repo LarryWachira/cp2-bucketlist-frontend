@@ -5,9 +5,9 @@
   <h2 *ngIf="results.bucketlists.length" class="text-effect">Search Results
     <span *ngIf="searchTerm"> for <em>{{"\"" + searchTerm + "\""}}</em></span>
   </h2>
-  <h1 *ngIf="!results.bucketlists.length && searchTerm" class="center-h1">No Results for
+  <h1 *ngIf="results.bucketlists.length == 0 && searchTerm" class="center-h1">No Results for
     <em> {{"\"" + searchTerm + "\""}}</em>
-  </h1>
+  </h1>  
 
   <div *ngIf="results.bucketlists.length && !isLoading" class="row">
     <div id="page-switcher" *ngIf="bucketLists.length" style="text-align: center" class="col-lg-4">

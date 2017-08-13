@@ -34,10 +34,10 @@ export class DashboardComponent implements OnInit {
         },
         error => this.errorMessage = error.json(),
         () => this.isLoading = false);
-    this.isLoading = false
+    this.isLoading = false;
   }
 
-  //TODO: getRecentlyModifiedItems() {}
+  // TODO: getRecentlyModifiedItems() {}
 
   updateBucketList(bucketlist: BucketList, name: string): void {
     this.submitLoading = true;
